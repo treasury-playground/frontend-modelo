@@ -1,0 +1,28 @@
+{
+    "usuarios": [
+        {
+            "id": 1,
+            "nome": "Professor João",
+            "tipo": "professor"
+        },
+        {
+            "id": 2,
+            "nome": "Aluno Maria",
+            "tipo": "aluno"
+        }
+    ],
+    "projetos": [
+        {
+            "id": 1,
+            "titulo": "Projeto Angular",
+            "descricao": "Exemplo de API Fake",
+            "professorId": 1
+        },
+        {
+            "id": 2,
+            "titulo": "Projeto Node.js",
+            "descricao": "Backend com JSON Server",
+            "professorId": 1
+        }
+    ]
+}
