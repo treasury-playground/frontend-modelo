@@ -1,28 +1,52 @@
 {
-    "usuarios": [
-        {
-            "id": 1,
-            "nome": "Professor João",
-            "tipo": "professor"
-        },
-        {
-            "id": 2,
-            "nome": "Aluno Maria",
-            "tipo": "aluno"
-        }
+    "users": [
+      {
+        "id": 1,
+        "fullName": "Luiz Thiago",
+        "email": "luiz@example.com",
+        "password": "hashed_password",
+        "role": "teacher",
+        "educationalInstitution": "Universidade XYZ"
+      },
+      {
+        "id": 2,
+        "fullName": "Davi Gomes",
+        "email": "davi@example.com",
+        "password": "hashed_password",
+        "role": "student",
+        "educationalInstitution": "Universidade XYZ"
+      },
+      {
+        "id": 3,
+        "fullName": "Ester Souza",
+        "email": "ester@example.com",
+        "password": "hashed_password",
+        "role": "student",
+        "educationalInstitution": "Universidade ABC"
+      }
     ],
-    "projetos": [
-        {
-            "id": 1,
-            "titulo": "Projeto Angular",
-            "descricao": "Exemplo de API Fake",
-            "professorId": 1
-        },
-        {
-            "id": 2,
-            "titulo": "Projeto Node.js",
-            "descricao": "Backend com JSON Server",
-            "professorId": 1
-        }
+    "projects": [
+      {
+        "id": 1,
+        "name": "Project 1",
+        "description": "Descrição do Projeto 1",
+        "date": "2024-03-20",
+        "coordinatorId": 1,
+        "students": [
+          { "id": 2, "role": "Júnior" },
+          { "id": 3, "role": "Sênior" }
+        ]
+      },
+      {
+        "id": 2,
+        "name": "Project 2",
+        "description": "Descrição do Projeto 2",
+        "date": "2024-03-22",
+        "coordinatorId": 1,
+        "students": [
+          { "id": 3, "role": "Estágio" }
+        ]
+      }
     ]
-}
+  }
+  

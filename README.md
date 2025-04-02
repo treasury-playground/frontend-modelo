@@ -2,6 +2,12 @@
 
 This project was generated using [Angular CLI](https://github.com/angular/angular-cli) version 19.2.3.
 
+## Once you clone the repository, type in the terminal:
+
+```bash
+npm install
+```
+
 ## Development server
 
 To start a local development server, run:
@@ -36,3 +42,40 @@ ng build
 
 This will compile your project and store the build artifacts in the `dist/` directory. By default, the production build optimizes your application for performance and speed.
 
+## Components
+
+Run the following command in the terminal inside your Angular project:
+
+```bash
+ng add @angular/material
+```
+
+## To use the PrimeNG and Ngx Bootstrap libraries for components:
+
+```bash
+npm install primeng primeicons
+npm install bootstrap ngx-bootstrap
+```
+
+This installs:
+
+PrimeNG: UI Components for Angular.
+PrimeIcons: PrimeNG Icons.
+Bootstrap: CSS Framework.
+Ngx Bootstrap: Bootstrap Components for Angular.
+
+## Install JSON Server
+
+If you don't already have JSON Server installed, open the terminal and install it globally via npm (the Node.js package manager):
+
+```bash
+npm install -g json-server
+```
+
+## Run JSON Server
+
+Now, in the terminal, navigate to the folder where db.json is located and run the command:
+
+```bash
+json-server --watch db.json
+```
