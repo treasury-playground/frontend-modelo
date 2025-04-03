@@ -13,7 +13,7 @@ export class AppComponent implements OnInit {
   usuarios: any[] = [];
   projetos: any[] = [];
 
-  title = 'exemplo';
+  title = 'Gerenciador de projetos';
 
   constructor(private apiService: ApiService) { }
 

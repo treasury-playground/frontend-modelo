@@ -1,0 +1,91 @@
+<div class="d-flex justify-content-between align-items-center mb-4">
+    <h5 class="fw-bold">Listing</h5>
+    <div class="d-flex align-items-center">
+      <span class="me-2">Hi, Adalberto Farias</span>
+      <i class="bi bi-person-circle fs-4"></i>
+    </div>
+  </div>
+  
+  <div class="card shadow-sm p-4">
+  
+<div class="position-relative mb-3">
+    <input
+      type="text"
+      [formControl]="searchControl"
+      class="form-control w-100 ps-3 pe-5"
+      placeholder="Search by Project"
+    />
+    <i
+      class="bi bi-search position-absolute top-50 end-0 translate-middle-y me-3 text-muted"
+      style="pointer-events: none;"
+    ></i>
+  </div>
+  
+  
+    <div class="mb-2 text-muted small">Projects ({{ filteredProjects.length < 10 ? '0' + filteredProjects.length : filteredProjects.length }})</div>
+  
+    <table class="table table-hover align-middle">
+      <thead class="table-light">
+        <tr>
+          <th></th>
+          <th>Name of Project <i class="bi bi-arrow-down-up ms-1 text-muted"></i></th>
+          <th>Description <i class="bi bi-arrow-down-up ms-1 text-muted"></i></th>
+          <th>Date <i class="bi bi-arrow-down-up ms-1 text-muted"></i></th>
+          <th>Coordinator <i class="bi bi-arrow-down-up ms-1 text-muted"></i></th>
+          <th>Students <i class="bi bi-arrow-down-up ms-1 text-muted"></i></th>
+          <th>
+            <button class="btn btn-outline-secondary btn-sm me-1" disabled>Download</button>
+            <button class="btn btn-outline-secondary btn-sm" disabled>Delete</button>
+          </th>
+          <th><input type="checkbox" /></th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let project of paginatedProjects">
+          <td><i class="bi bi-chevron-right text-secondary"></i></td>
+          <td>{{ project.name }}</td>
+          <td class="text-muted small">{{ project.description }}</td>
+          <td>{{ project.date }}</td>
+          <td><span class="badge bg-info text-dark">{{ project.coordinator }}</span></td>
+          <td>
+            <span *ngFor="let student of project.students" class="badge bg-secondary me-1">
+              {{ student }}
+            </span>
+          </td>
+          <td><i class="bi bi-pencil text-primary" role="button"></i></td>
+          <td><input type="checkbox" /></td>
+        </tr>
+      </tbody>
+    </table>
+  
+    <div class="d-flex justify-content-between align-items-center mt-3">
+      <span class="small text-muted">Showing {{ paginatedProjects.length }} of {{ filteredProjects.length }}</span>
+      <div class="d-flex align-items-center gap-2">
+        <button class="btn btn-sm btn-outline-primary" [disabled]="currentPage === 1" (click)="changePage(currentPage - 1)">
+          ‹
+        </button>
+        <span>{{ currentPage }}</span>
+        <button class="btn btn-sm btn-outline-primary" [disabled]="currentPage >= totalPages()" (click)="changePage(currentPage + 1)">
+          ›
+        </button>
+  
+        <select class="form-select form-select-sm ms-2" style="width: 70px;" [(ngModel)]="pageSize">
+          <option [ngValue]="2">2</option>
+          <option [ngValue]="4">4</option>
+          <option [ngValue]="10">10</option>
+        </select>
+      </div>
+    </div>
+  
+    <div class="text-end mt-4">
+        <button class="btn btn-primary" (click)="openModal()">
+            <i class="bi bi-plus-lg me-1"></i> Add New Project
+          </button>          
+    </div>
+
+    
+  </div>
+
+  <app-project-modal *ngIf="showModal" (close)="closeModal()"></app-project-modal>
+
+  

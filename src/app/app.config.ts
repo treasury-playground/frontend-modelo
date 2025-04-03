@@ -2,6 +2,7 @@ import { ApplicationConfig, Injectable, provideZoneChangeDetection } from '@angu
 import { provideRouter } from '@angular/router';
 
 import { routes } from './app.routes';
+
 import { HttpClient, provideHttpClient } from '@angular/common/http';
 
 export const appConfig: ApplicationConfig = {

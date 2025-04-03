@@ -1,4 +1,4 @@
-.modal-backdrop {
+  .modal-backdrop {
     background-color: rgba(0, 0, 0, 0.3);
   }
   
@@ -8,4 +8,44 @@
     border-radius: 8px;
     cursor: pointer;
   }
+  
+  .upload-dropzone {
+    border: 2px dashed #ccc;
+    border-radius: 6px;
+    background-color: #f9f9f9;
+    transition: border-color 0.2s;
+    min-height: 100px;
+  }
+  
+  
+
+  .upload-dropzone {
+    border: 2px dashed #ccc;
+    border-radius: 6px;
+    background-color: #f9f9f9;
+    min-height: 120px;
+    width: 100%;
+  }
+  
+  
+  .upload-dropzone:hover {
+    border-color: #999;
+  }
+  
+  .btn-outline-secondary.btn-sm {
+    font-size: 0.8rem;
+    padding: 0.25rem 0.75rem;
+  }
+  
+  .list-group-item {
+    font-size: 0.9rem;
+  }
+  
+  .badge {
+    font-size: 0.75rem;
+    padding: 0.35em 0.6em;
+  }
+
+  
+  
   
