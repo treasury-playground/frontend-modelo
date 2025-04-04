@@ -25,7 +25,7 @@ projectBeingEdited: any = null;
   allProjects = [
     {
       name: 'Project 1',
-      description: 'Lorem ipsum dolor sit amet...',
+      description: '',
       date: '03/24/2024',
       coordinator: 'Luis Tiago',
       students: ['dev.cerros', 'salmonads'],
@@ -33,7 +33,7 @@ projectBeingEdited: any = null;
     },
     {
       name: 'Project 2',
-      description: 'Lorem ipsum dolor sit amet...',
+      description: '...',
       date: '03/24/2024',
       coordinator: 'Luis Tiago',
       students: ['dev.penna', 'salmonads'],
@@ -41,7 +41,7 @@ projectBeingEdited: any = null;
     },
     {
       name: 'Project 3',
-      description: 'Lorem ipsum dolor sit amet...',
+      description: '...',
       date: '03/24/2024',
       coordinator: 'Luis Tiago',
       students: ['dev.campos', 'salmonads'],
@@ -49,7 +49,7 @@ projectBeingEdited: any = null;
     },
     {
       name: 'Project 4',
-      description: 'Lorem ipsum dolor sit amet...',
+      description: '..',
       date: '03/24/2024',
       coordinator: 'Luis Tiago',
       students: ['dev.junior', 'salmonads'],
