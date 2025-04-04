@@ -1,4 +1,4 @@
-import { Component, EventEmitter, Output } from '@angular/core';
+import { Component, EventEmitter, Input, Output, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import {
   FormBuilder,
@@ -15,8 +15,12 @@ import { FormsModule } from '@angular/forms';
   templateUrl: './project-modal.component.html',
   styleUrls: ['./project-modal.component.css']
 })
-export class ProjectModalComponent {
+export class ProjectModalComponent implements OnInit {
+  @Input() isEditMode: boolean = false;
+  @Input() projectToEdit: any = null;
   @Output() close = new EventEmitter<void>();
+
+  submitted = false;
 
   form: FormGroup;
   maxChars = 200;
@@ -26,21 +30,30 @@ export class ProjectModalComponent {
     status: 'ready' | 'canceled' | 'error';
   }[] = [];
 
-  availableStudents: string[] = ['Student 1', 'Student 2', 'Student 3', 'Student 4'];
-  availableRoles: string[] = ['Estágio', 'Júnior', 'Pleno', 'Sênior', 'Master'];
-
+  availableStudents: string[] = ['Davi Gomes', 'Elli Morais', 'Eloquinn Teixeira', 'Beatriz Silva'];
   selectedStudent: string = '';
-  selectedRole: string = '';
-
   assignedStudents: { name: string; role: string }[] = [];
+  selectedStudents: string[] = [];
 
   constructor(private fb: FormBuilder) {
     this.form = this.fb.group({
       name: ['', Validators.required],
       coordinator: ['', Validators.required],
-      students: ['', Validators.required], 
       description: ['', [Validators.required, Validators.maxLength(this.maxChars)]]
     });
+  }
+
+  ngOnInit(): void {
+    if (this.isEditMode && this.projectToEdit) {
+      this.form.patchValue({
+        name: this.projectToEdit.name,
+        coordinator: this.projectToEdit.coordinator,
+        description: this.projectToEdit.description
+      });
+
+      this.assignedStudents = this.projectToEdit.assignedStudents || [];
+      this.uploadedFiles = this.projectToEdit.files || [];
+    }
   }
 
   get descriptionLength(): number {
@@ -57,10 +70,7 @@ export class ProjectModalComponent {
 
     const mappedFiles = newFiles.map((file, index) => ({
       file,
-      status: statusCycle[(this.uploadedFiles.length + index) % statusCycle.length] as
-        | 'ready'
-        | 'canceled'
-        | 'error'
+      status: statusCycle[(this.uploadedFiles.length + index) % statusCycle.length] as 'ready' | 'canceled' | 'error'
     }));
 
     this.uploadedFiles = [...this.uploadedFiles, ...mappedFiles];
@@ -74,27 +84,33 @@ export class ProjectModalComponent {
     this.uploadedFiles[index].status = 'ready';
   }
 
-  addStudentWithRole() {
-    if (this.selectedStudent && this.selectedRole) {
-      const alreadyAdded = this.assignedStudents.some(s => s.name === this.selectedStudent);
-      if (!alreadyAdded) {
-        this.assignedStudents.push({
-          name: this.selectedStudent,
-          role: this.selectedRole
-        });
-      }
-
+  addStudentOnly() {
+    if (
+      this.selectedStudent &&
+      !this.assignedStudents.some(s => s.name === this.selectedStudent)
+    ) {
+      this.assignedStudents.push({
+        name: this.selectedStudent,
+        role: ''
+      });
+      this.selectedStudents.push(this.selectedStudent);
       this.selectedStudent = '';
-      this.selectedRole = '';
     }
   }
 
   removeAssignedStudent(index: number) {
+    const removed = this.assignedStudents[index];
     this.assignedStudents.splice(index, 1);
+    this.selectedStudents = this.selectedStudents.filter(s => s !== removed.name);
   }
 
   onSave() {
-    if (this.form.invalid) return;
+    this.submitted = true;
+
+    if (this.form.invalid || this.assignedStudents.length === 0) {
+      alert('Fill all required fields and assign at least one student.');
+      return;
+    }
 
     const projectData = {
       ...this.form.value,
@@ -102,7 +118,7 @@ export class ProjectModalComponent {
       files: this.uploadedFiles
     };
 
-    console.log('Projeto salvo:', projectData);
+    console.log(this.isEditMode ? 'Projeto atualizado:' : 'Projeto salvo:', projectData);
     this.close.emit();
   }
 }

@@ -1,6 +1,6 @@
 import { Component, HostListener } from '@angular/core';
 import { RouterModule } from '@angular/router';
-import { CommonModule } from '@angular/common'; // ✅ Importar isso também
+import { CommonModule } from '@angular/common';
 
 @Component({
   selector: 'app-main-layout',
@@ -8,7 +8,7 @@ import { CommonModule } from '@angular/common'; // ✅ Importar isso também
   styleUrls: ['./main-layout.component.css'],
   standalone: true,
   imports: [
-    CommonModule, // ✅ Necessário para ngIf, ngClass, ngFor, etc.
+    CommonModule, 
     RouterModule
   ]
 })
