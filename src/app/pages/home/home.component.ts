@@ -17,6 +17,9 @@ export class HomeComponent {
     { name: 'Project 4', description: 'Brief Description' },
   ];
 
+  userType: 'teacher' | 'student' = 'student';
+
+
   showModal = false;
 
   openModal() {
@@ -25,5 +28,12 @@ export class HomeComponent {
 
   closeModal() {
     this.showModal = false;
+  }
+
+  ngOnInit() {
+    const storedType = localStorage.getItem('userType');
+    if (storedType === 'teacher' || storedType === 'student') {
+      this.userType = storedType;
+    }
   }
 }

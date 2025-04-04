@@ -7,7 +7,7 @@
         <button type="button" class="btn-close" (click)="close.emit()"></button>
       </div>
 
-      <form [formGroup]="form" (ngSubmit)="onSave()">
+      <form [formGroup]="form" (ngSubmit)="onSave()" class="needs-validation" novalidate>
         <div class="modal-body">
           <p class="text-muted mb-4">
             Upload new documents referring to the projects and fill in the detail fields.
@@ -26,9 +26,7 @@
             </div>
 
             <div class="text-muted small mb-3">
-              {{ uploadedFiles.length }} File –
-              {{ totalSizeKB | number:'1.0-0' }} KB approximate total
-              ({{ totalSizeKB | number:'1.0-0' }} KB received)
+              {{ uploadedFiles.length }} File – {{ totalSizeKB | number:'1.0-0' }} KB approximate total
             </div>
 
             <div
@@ -45,7 +43,6 @@
               />
             </div>
 
-            <!-- File List -->
             <ul class="mt-3 list-group small" *ngIf="uploadedFiles.length > 0">
               <li
                 *ngFor="let item of uploadedFiles; let i = index"
@@ -68,14 +65,12 @@
                       item.status === 'canceled' ? 'Canceled' : 'Error'
                     }}
                   </span>
-
                   <i
                     class="bi bi-x-lg text-danger"
                     role="button"
                     *ngIf="item.status === 'ready'"
                     (click)="removeFile(i)"
                   ></i>
-
                   <i
                     class="bi bi-arrow-clockwise text-muted"
                     role="button"
@@ -87,22 +82,42 @@
             </ul>
           </div>
 
-          <!-- Form Fields -->
           <div class="row mb-3">
             <div class="col">
               <label class="form-label small text-muted">Name of Project</label>
-              <input type="text" formControlName="name" class="form-control" placeholder="Project 1" />
+              <input
+                type="text"
+                formControlName="name"
+                class="form-control"
+                placeholder="Project 1"
+              />
+              <div class="text-danger small mt-1" *ngIf="form.get('name')?.touched && form.get('name')?.invalid">
+                Project name is required.
+              </div>
             </div>
+
             <div class="col">
               <label class="form-label small text-muted">Coordinator</label>
-              <input type="text" formControlName="coordinator" class="form-control" placeholder="Coordinator 1" />
+              <input
+                type="text"
+                formControlName="coordinator"
+                class="form-control"
+                placeholder="Coordinator 1"
+              />
+              <div class="text-danger small mt-1" *ngIf="form.get('coordinator')?.touched && form.get('coordinator')?.invalid">
+                Coordinator is required.
+              </div>
             </div>
+
             <div class="col">
               <label class="form-label small text-muted">Students</label>
               <select formControlName="students" class="form-select">
                 <option value="">Select</option>
                 <option *ngFor="let s of ['Student 1', 'Student 2', 'Student 3']">{{ s }}</option>
               </select>
+              <div class="text-danger small mt-1" *ngIf="form.get('students')?.touched && form.get('students')?.invalid">
+                At least one student must be selected.
+              </div>
             </div>
           </div>
 
@@ -116,6 +131,47 @@
               placeholder="Text"
             ></textarea>
             <div class="text-end small text-muted mt-1">{{ descriptionLength }}/{{ maxChars }}</div>
+            <div class="text-danger small mt-1" *ngIf="form.get('description')?.touched && form.get('description')?.invalid">
+              Description is required (max {{ maxChars }} characters).
+            </div>
+          </div>
+
+          <div class="border rounded p-3 mb-4">
+            <label class="form-label small text-muted mb-2">Assign Students and Roles</label>
+
+            <div class="row g-2 align-items-end mb-3">
+              <div class="col-md-6">
+                <select class="form-select" [(ngModel)]="selectedStudent" name="selectedStudent">
+                  <option value="" disabled selected>Select Student</option>
+                  <option *ngFor="let s of availableStudents">{{ s }}</option>
+                </select>
+              </div>
+
+              <div class="col-md-4">
+                <select class="form-select" [(ngModel)]="selectedRole" name="selectedRole">
+                  <option value="" disabled selected>Select Role</option>
+                  <option *ngFor="let r of availableRoles">{{ r }}</option>
+                </select>
+              </div>
+
+              <div class="col-md-2">
+                <button type="button" class="btn btn-outline-primary w-100" (click)="addStudentWithRole()">
+                  <i class="bi bi-plus-lg"></i>
+                </button>
+              </div>
+            </div>
+
+            <ul class="list-group small">
+              <li
+                *ngFor="let student of assignedStudents; let i = index"
+                class="list-group-item d-flex justify-content-between align-items-center"
+              >
+                <div>
+                  <strong>{{ student.name }}</strong> — <span class="text-muted">{{ student.role }}</span>
+                </div>
+                <i class="bi bi-x-lg text-danger" role="button" (click)="removeAssignedStudent(i)"></i>
+              </li>
+            </ul>
           </div>
         </div>
 

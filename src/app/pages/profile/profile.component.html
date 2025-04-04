@@ -1,0 +1,59 @@
+<div class="container mt-4">
+    <div class="card mb-4 p-3 d-flex flex-row align-items-center justify-content-between">
+      <div class="d-flex align-items-center">
+        <i class="bi bi-person-circle fs-1 me-3"></i>
+        <div>
+          <div *ngIf="!isEditing">
+            <h5 class="mb-0">{{ user.name }}</h5>
+          </div>
+          <div *ngIf="isEditing">
+            <input
+              type="text"
+              [(ngModel)]="user.name"
+              class="form-control form-control-sm mb-1"
+              placeholder="Name"
+            />
+          </div>
+  
+          <div *ngIf="!isEditing">
+            <small class="text-muted">{{ user.email }}</small>
+          </div>
+          <div *ngIf="isEditing">
+            <input
+              type="email"
+              [(ngModel)]="user.email"
+              class="form-control form-control-sm"
+              placeholder="Email"
+            />
+          </div>
+  
+          <div>
+            <span class="badge bg-info text-dark mt-1">Coordinator</span>
+          </div>
+        </div>
+      </div>
+  
+      <button
+        class="btn btn-primary px-4 py-2 d-flex align-items-center justify-content-center rounded-2 fw-semibold"
+        (click)="toggleEdit()"
+      >
+        <i class="bi me-2" [ngClass]="isEditing ? 'bi-check' : 'bi-pencil'"></i>
+        {{ isEditing ? 'Save' : 'Edit' }}
+      </button>
+    </div>
+  
+    <div class="card p-3">
+      <h6 class="mb-3">My Projects</h6>
+      <div class="d-flex gap-4">
+        <div
+          class="text-center"
+          *ngFor="let project of projects"
+        >
+          <i class="bi bi-clipboard fs-3 text-secondary"></i>
+          <div>{{ project.name }}</div>
+          <small class="text-muted">{{ project.description }}</small>
+        </div>
+      </div>
+    </div>
+  </div>
+  

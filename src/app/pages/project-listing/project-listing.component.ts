@@ -15,6 +15,10 @@ export class ProjectListingComponent {
   currentPage = 1;
   pageSize = 2;
   showModal = false;
+  expandedIndex: number | null = null;
+  userType: 'teacher' | 'student' = 'teacher'; 
+
+
 
 
   allProjects = [
@@ -76,6 +80,17 @@ openModal() {
 
 closeModal() {
   this.showModal = false;
+}
+
+toggleDetails(index: number) {
+  this.expandedIndex = this.expandedIndex === index ? null : index;
+}
+
+ngOnInit() {
+  const storedUser = localStorage.getItem('userType');
+  if (storedUser === 'teacher' || storedUser === 'student') {
+    this.userType = storedUser;
+  }
 }
 
 }
