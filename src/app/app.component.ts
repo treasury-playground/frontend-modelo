@@ -1,13 +1,16 @@
 import { Component, OnInit } from '@angular/core';
 import { ApiService } from './services/api.service'
 import { RouterOutlet } from '@angular/router';
+import { SidebarComponent } from "./components/sidebar/sidebar.component";
+import { PageContainerComponent } from "./components/page-container/page-container.component";
+import { TopBarComponent } from "./components/top-bar/top-bar.component";
 
 
 @Component({
   selector: 'app-root',
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.css'],
-  imports:[RouterOutlet]
+  imports: [RouterOutlet, SidebarComponent, PageContainerComponent, TopBarComponent]
 })
 export class AppComponent implements OnInit {
   usuarios: any[] = [];

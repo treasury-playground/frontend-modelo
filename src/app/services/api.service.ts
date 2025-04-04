@@ -11,11 +11,11 @@ export class ApiService {
   constructor(private http: HttpClient) { }
 
   getUsuarios(): Observable<any> {
-    return this.http.get(`${this.baseUrl}/usuarios`);
+    return this.http.get(`${this.baseUrl}/users`);
   }
 
   getProjetos(): Observable<any> {
-    return this.http.get(`${this.baseUrl}/projetos`);
+    return this.http.get(`${this.baseUrl}/projects`);
   }
   
 }
