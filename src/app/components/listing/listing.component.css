@@ -1,0 +1,22 @@
+.listing-container {
+    padding: 20px;
+    background-color: white;
+}
+
+.custom-table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+.custom-table th,
+.custom-table td {
+    border-bottom: 1px solid #ccc;
+    border-left: none;
+    border-right: none;
+    padding: 8px;
+}
+
+.custom-table th {
+    text-align: left;
+    font-weight: bold;
+}
