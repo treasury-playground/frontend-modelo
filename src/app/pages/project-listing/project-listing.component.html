@@ -1,4 +1,4 @@
-<div class="d-flex justify-content-between align-items-center mb-4">
+<div class="d-flex justify-content-between align-items-center mb-4"> 
   <h5 class="fw-bold">Listing</h5>
 </div>
 
@@ -37,7 +37,9 @@
           >
             Download
           </button>
+
           <button
+            *ngIf="userType === 'teacher'"
             class="btn btn-outline-danger btn-sm"
             [disabled]="!hasSelectedProjects()"
             (click)="deleteSelectedProjects()"
@@ -45,7 +47,8 @@
             Delete
           </button>
         </th>
-        <th>
+
+        <th *ngIf="userType === 'teacher'">
           <input
             type="checkbox"
             [(ngModel)]="selectAll"
@@ -81,9 +84,14 @@
             </span>
           </td>
           <td>
-            <i class="bi bi-pencil text-primary" role="button" (click)="onEditProject(project)"></i>
+            <i
+              *ngIf="userType === 'teacher'"
+              class="bi bi-pencil text-primary"
+              role="button"
+              (click)="onEditProject(project)">
+            </i>
           </td>
-          <td>
+          <td *ngIf="userType === 'teacher'">
             <input type="checkbox" [(ngModel)]="project.selected" />
           </td>
         </tr>
