@@ -18,6 +18,7 @@
   }
   
   
+  
 
   .upload-dropzone {
     border: 2px dashed #ccc;
@@ -68,7 +69,6 @@
     background-color: #f8f9fa;
   }
   
-  /* Ícone de remoção mais amigável */
   .list-group-item i.bi-x-lg {
     cursor: pointer;
     transition: color 0.2s;
@@ -87,6 +87,12 @@
   
   .upload-dropzone:hover {
     background-color: #e9ecef;
+  }
+  
+  button:disabled {
+    pointer-events: none;
+    opacity: 0.6;
+    filter: grayscale(0.3);
   }
   
   

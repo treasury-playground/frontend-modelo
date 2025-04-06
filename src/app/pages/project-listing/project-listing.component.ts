@@ -11,8 +11,8 @@ import { ProjectModalComponent } from '../project-modal/project-modal.component'
   styleUrls: ['./project-listing.component.css']
 })
 export class ProjectListingComponent {
-  editMode: boolean = false;
-projectBeingEdited: any = null;
+  isEditMode: boolean = false;
+  projectBeingEdited: any = null;
 
   searchControl = new FormControl('');
   currentPage = 1;
@@ -84,7 +84,7 @@ descriptionLength: any;
 
   closeModal() {
     this.showModal = false;
-    this.editMode = false;
+    this.isEditMode = false;
     this.projectBeingEdited = null;
   }
   
@@ -146,7 +146,7 @@ descriptionLength: any;
       assignedStudents: project.students.map((s: string) => ({ name: s, role: '' })), 
       files: [] 
     };
-    this.editMode = true;
+    this.isEditMode = true;
     this.showModal = true;
   }
   

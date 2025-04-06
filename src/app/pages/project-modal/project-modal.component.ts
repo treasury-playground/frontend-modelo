@@ -42,7 +42,6 @@ export class ProjectModalComponent implements OnInit {
       description: ['', [Validators.required, Validators.maxLength(this.maxChars)]]
     });
   }
-
   ngOnInit(): void {
     if (this.isEditMode && this.projectToEdit) {
       this.form.patchValue({
@@ -50,11 +49,16 @@ export class ProjectModalComponent implements OnInit {
         coordinator: this.projectToEdit.coordinator,
         description: this.projectToEdit.description
       });
-
+  
       this.assignedStudents = this.projectToEdit.assignedStudents || [];
       this.uploadedFiles = this.projectToEdit.files || [];
     }
+  
+    setTimeout(() => {
+      this.form.updateValueAndValidity();
+    });
   }
+  
 
   get descriptionLength(): number {
     return this.form.get('description')?.value?.length || 0;
