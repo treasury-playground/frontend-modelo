@@ -21,6 +21,8 @@ export class HomeComponent {
 
 
   showModal = false;
+  userName: string = '';
+
 
   openModal() {
     this.showModal = true;
@@ -35,5 +37,11 @@ export class HomeComponent {
     if (storedType === 'teacher' || storedType === 'student') {
       this.userType = storedType;
     }
+  
+    const storedName = localStorage.getItem('userName');
+    if (storedName) {
+      this.userName = storedName;
+    }
   }
+  
 }

@@ -1,4 +1,4 @@
-import { Component, HostListener } from '@angular/core';
+import { Component, HostListener, OnInit } from '@angular/core';
 import { RouterModule } from '@angular/router';
 import { CommonModule } from '@angular/common';
 
@@ -8,14 +8,22 @@ import { CommonModule } from '@angular/common';
   styleUrls: ['./main-layout.component.css'],
   standalone: true,
   imports: [
-    CommonModule, 
+    CommonModule,
     RouterModule
   ]
 })
-export class MainLayoutComponent {
+export class MainLayoutComponent implements OnInit {
   isSidebarCollapsed = false;
   showProjects = true;
   showUserMenu = false;
+  userName: string = '';
+
+  ngOnInit(): void {
+    const name = localStorage.getItem('userName');
+    if (name) {
+      this.userName = name;
+    }
+  }
 
   toggleUserMenu() {
     this.showUserMenu = !this.showUserMenu;

@@ -38,9 +38,11 @@ export class RegisterComponent {
     }
   
     localStorage.setItem('userType', this.userType);
+    localStorage.setItem('userName', this.formData.name); 
   
     console.log('Usuário registrado com sucesso:', this.formData);
     this.router.navigate(['/home']);
   }
+   
   
 }
