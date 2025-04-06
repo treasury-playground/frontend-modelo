@@ -121,23 +121,33 @@ descriptionLength: any;
   }
 
   downloadSelectedProjects() {
-    const selected = this.allProjects.filter(p => p.selected);
+    const selected = this.paginatedProjects.filter(p => p.selected);
   
     if (selected.length === 0) {
       alert('No projects selected to download.');
       return;
     }
   
+    const date = new Date();
+    const formattedDate = `${date.getFullYear()}-${(date.getMonth()+1)
+      .toString()
+      .padStart(2, '0')}-${date.getDate().toString().padStart(2, '0')}`;
+  
+    const userName = localStorage.getItem('userName') || 'user';
+  
+    const filename = `projects_${userName}_${formattedDate}.json`;
+  
     const blob = new Blob([JSON.stringify(selected, null, 2)], { type: 'application/json' });
     const url = window.URL.createObjectURL(blob);
   
     const a = document.createElement('a');
     a.href = url;
-    a.download = 'selected-projects.json';
+    a.download = filename;
     a.click();
   
     window.URL.revokeObjectURL(url);
   }
+  
 
   
   onEditProject(project: any) {
