@@ -23,6 +23,22 @@
         "password": "hashed_password",
         "role": "student",
         "educationalInstitution": "Universidade ABC"
+      },
+      {
+        "id": 4,
+        "fullName": "Adalberto Cajueiro",
+        "email": "adalberto@example.com",
+        "password": "hashed_password",
+        "role": "teacher",
+        "educationalInstitution": "Universidade UFCG"
+      },
+      {
+        "id": 5,
+        "fullName": "João Lucas",
+        "email": "joaolucas@example.com",
+        "password": "hashed_password",
+        "role": "student",
+        "educationalInstitution": "Universidade UFCG"
       }
     ],
     "projects": [
@@ -45,6 +61,19 @@
         "coordinatorId": 1,
         "students": [
           { "id": 3, "role": "Estágio" }
+        ]
+      },
+      {
+        "id": 3,
+        "name": "Project 3",
+        "description": "Descrição do Projeto 3",
+        "date": "2025-01-04",
+        "coordinatorId": 4,
+        "students": [
+          { "id": 5, "role": "Sênior"},
+          { "id": 2, "role": "Júnior" },
+          { "id": 3, "role": "Sênior" }
+          
         ]
       }
     ]
