@@ -1,0 +1,96 @@
+<div class="register-container">
+  <div class="register-form">
+    <!-- Imagem/logo no topo -->
+    <div class="logo-area">
+      <img src="/logo_treasury_connect_azul.png" alt="Logo" class="register-logo" />
+    </div>
+
+    <!-- Seletor de Role -->
+    <div class="role-selector">
+      <label>
+        <input
+          type="radio"
+          name="role"
+          [(ngModel)]="data.role"
+          value="student"
+        />
+        Student
+      </label>
+      <label>
+        <input
+          type="radio"
+          name="role"
+          [(ngModel)]="data.role"
+          value="teacher"
+        />
+        Teacher
+      </label>
+    </div>
+
+    <!-- Linha de campos: Full Name, Email, Password, Confirm Password, Occupation Area, Formation Area -->
+    <div class="form-fields">
+      <div class="field-group">
+        <label for="fullName">Full Name</label>
+        <input
+          type="text"
+          id="fullName"
+          [(ngModel)]="data.fullName"
+          placeholder="Enter your full name"
+        />
+      </div>
+      <div class="field-group">
+        <label for="email">Email</label>
+        <input
+          type="email"
+          id="email"
+          [(ngModel)]="data.email"
+          placeholder="Enter your email"
+        />
+      </div>
+      <div class="field-group">
+        <label for="password">Password</label>
+        <input
+          type="password"
+          id="password"
+          [(ngModel)]="data.password"
+          placeholder="Enter your password"
+        />
+      </div>
+      <div class="field-group">
+        <label for="confirmPassword">Confirm Password</label>
+        <input
+          type="password"
+          id="confirmPassword"
+          [(ngModel)]="data.confirmPassword"
+          placeholder="Confirm your password"
+        />
+      </div>
+      <div class="field-group">
+        <label for="occupationArea">Occupation Area</label>
+        <input
+          type="text"
+          id="occupationArea"
+          [(ngModel)]="data.occupationArea"
+          placeholder="e.g., Software, Marketing"
+        />
+      </div>
+      <div class="field-group">
+        <label for="formationArea">Formation Area</label>
+        <input
+          type="text"
+          id="formationArea"
+          [(ngModel)]="data.formationArea"
+          placeholder="Your academic formation"
+        />
+      </div>
+    </div>
+
+    <!-- Botão para criar a conta -->
+    <button class="register-button" (click)="createAccount()">
+      Create an Account
+    </button>
+  </div>
+  <div class="register-background">
+    <!-- <img src="/register_wallpaper.png" alt=""> -->
+  </div>
+</div>
