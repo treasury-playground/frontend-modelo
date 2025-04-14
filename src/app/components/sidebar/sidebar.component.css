@@ -5,9 +5,6 @@
     padding: 20px;
     display: flex;
     flex-direction: column;
-
-    /* position: relative;
-    z-index: 1000; */
 }
 
 .sidebar a {
@@ -18,11 +15,6 @@
     align-items: center;
     gap: 10px;
     padding: 10px;
-
-    /* border: 2px solid black;
-    pointer-events: auto;
-    z-index: 10;
-    cursor: pointer; */
 }
 
 .sidebar h4 {
@@ -40,9 +32,31 @@
     margin: 10px 0;
 }
 
+/* Estilização para o dropdown */
+.dropdown-projects {
+    margin-top: 5px;
+    margin-left: 20px;
+    list-style: disc;
+}
+
+.dropdown-projects li {
+    margin: 5px 0;
+}
+
 .sidebar-logo {
-    width: 10vw; 
+    width: 10vw;
     height: auto;
     display: block;
-    margin: 0 auto 35px; 
+    margin: 0 auto 35px;
 }
+
+/* Caso queira destacar o link do dropdown no hover */
+.dropdown-toggle:hover {
+    background-color: rgba(255, 255, 255, 0.1);
+    border-radius: 5px;
+}
+
+/* Remove setinhas ou triângulos extras gerados por pseudo-elementos */
+.dropdown-toggle::after {
+    content: none !important;
+  }
