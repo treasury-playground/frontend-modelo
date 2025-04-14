@@ -1,81 +1,49 @@
 {
-    "users": [
-      {
-        "id": 1,
-        "fullName": "Luiz Thiago",
-        "email": "luiz@example.com",
-        "password": "hashed_password",
-        "role": "teacher",
-        "educationalInstitution": "Universidade XYZ"
-      },
-      {
-        "id": 2,
-        "fullName": "Davi Gomes",
-        "email": "davi@example.com",
-        "password": "hashed_password",
-        "role": "student",
-        "educationalInstitution": "Universidade XYZ"
-      },
-      {
-        "id": 3,
-        "fullName": "Ester Souza",
-        "email": "ester@example.com",
-        "password": "hashed_password",
-        "role": "student",
-        "educationalInstitution": "Universidade ABC"
-      },
-      {
-        "id": 4,
-        "fullName": "Adalberto Cajueiro",
-        "email": "adalberto@example.com",
-        "password": "hashed_password",
-        "role": "teacher",
-        "educationalInstitution": "Universidade UFCG"
-      },
-      {
-        "id": 5,
-        "fullName": "João Lucas",
-        "email": "joaolucas@example.com",
-        "password": "hashed_password",
-        "role": "student",
-        "educationalInstitution": "Universidade UFCG"
-      }
-    ],
-    "projects": [
-      {
-        "id": 1,
-        "name": "Project 1",
-        "description": "Descrição do Projeto 1",
-        "date": "2024-03-20",
-        "coordinatorId": 1,
-        "students": [
-          { "id": 2, "role": "Júnior" },
-          { "id": 3, "role": "Sênior" }
-        ]
-      },
-      {
-        "id": 2,
-        "name": "Project 2",
-        "description": "Descrição do Projeto 2",
-        "date": "2024-03-22",
-        "coordinatorId": 1,
-        "students": [
-          { "id": 3, "role": "Estágio" }
-        ]
-      },
-      {
-        "id": 3,
-        "name": "Project 3",
-        "description": "Descrição do Projeto 3",
-        "date": "2025-01-04",
-        "coordinatorId": 4,
-        "students": [
-          { "id": 5, "role": "Sênior"},
-          { "id": 2, "role": "Júnior" },
-          { "id": 3, "role": "Sênior" }
-          
-        ]
-      }
-    ]
-  }
-  
+  "users": [
+    { "id": 1, "fullName": "Luiz Thiago", "email": "luiz@example.com", "password": "hashed_password", "role": "teacher", "educationalInstitution": "Universidade XYZ" },
+    { "id": 2, "fullName": "Davi Gomes", "email": "davi@example.com", "password": "hashed_password", "role": "student", "educationalInstitution": "Universidade XYZ" },
+    { "id": 3, "fullName": "Ester Souza", "email": "ester@example.com", "password": "hashed_password", "role": "student", "educationalInstitution": "Universidade ABC" },
+    { "id": 4, "fullName": "Adalberto Cajueiro", "email": "adalberto@example.com", "password": "hashed_password", "role": "teacher", "educationalInstitution": "Universidade UFCG" },
+    { "id": 5, "fullName": "João Lucas", "email": "joaolucas@example.com", "password": "hashed_password", "role": "student", "educationalInstitution": "Universidade UFCG" },
+
+    { "id": 6, "fullName": "Maria Clara", "email": "maria@example.com", "password": "hashed_password", "role": "student", "educationalInstitution": "Universidade ABC" },
+    { "id": 7, "fullName": "Rafael Lima", "email": "rafael@example.com", "password": "hashed_password", "role": "student", "educationalInstitution": "Universidade ABC" },
+    { "id": 8, "fullName": "Isabela Martins", "email": "isabela@example.com", "password": "hashed_password", "role": "student", "educationalInstitution": "Universidade XYZ" },
+    { "id": 9, "fullName": "Carlos Henrique", "email": "carlos@example.com", "password": "hashed_password", "role": "student", "educationalInstitution": "Universidade UFCG" },
+    { "id": 10, "fullName": "Beatriz Almeida", "email": "beatriz@example.com", "password": "hashed_password", "role": "student", "educationalInstitution": "Universidade ABC" },
+
+    { "id": 11, "fullName": "Fernanda Lopes", "email": "fernanda@example.com", "password": "hashed_password", "role": "student", "educationalInstitution": "Universidade XYZ" },
+    { "id": 12, "fullName": "Lucas Ribeiro", "email": "lucas@example.com", "password": "hashed_password", "role": "student", "educationalInstitution": "Universidade UFCG" },
+    { "id": 13, "fullName": "Ana Júlia", "email": "anajulia@example.com", "password": "hashed_password", "role": "student", "educationalInstitution": "Universidade XYZ" },
+    { "id": 14, "fullName": "Tiago Fernandes", "email": "tiago@example.com", "password": "hashed_password", "role": "student", "educationalInstitution": "Universidade ABC" },
+    { "id": 15, "fullName": "Paula Nogueira", "email": "paula@example.com", "password": "hashed_password", "role": "student", "educationalInstitution": "Universidade XYZ" },
+
+    { "id": 16, "fullName": "Marcelo Teixeira", "email": "marcelo@example.com", "password": "hashed_password", "role": "student", "educationalInstitution": "Universidade ABC" },
+    { "id": 17, "fullName": "Juliana Castro", "email": "juliana@example.com", "password": "hashed_password", "role": "student", "educationalInstitution": "Universidade UFCG" },
+    { "id": 18, "fullName": "Eduardo Lins", "email": "eduardo@example.com", "password": "hashed_password", "role": "student", "educationalInstitution": "Universidade XYZ" },
+    { "id": 19, "fullName": "Camila Rocha", "email": "camila@example.com", "password": "hashed_password", "role": "student", "educationalInstitution": "Universidade ABC" },
+    { "id": 20, "fullName": "Vitor Santos", "email": "vitor@example.com", "password": "hashed_password", "role": "student", "educationalInstitution": "Universidade UFCG" },
+
+    { "id": 21, "fullName": "Larissa Barros", "email": "larissa@example.com", "password": "hashed_password", "role": "student", "educationalInstitution": "Universidade XYZ" },
+    { "id": 22, "fullName": "Mateus Alves", "email": "mateus@example.com", "password": "hashed_password", "role": "student", "educationalInstitution": "Universidade ABC" },
+
+    { "id": 23, "fullName": "Patrícia Meireles", "email": "patricia@example.com", "password": "hashed_password", "role": "teacher", "educationalInstitution": "Universidade ABC" },
+    { "id": 24, "fullName": "Ricardo Fonseca", "email": "ricardo@example.com", "password": "hashed_password", "role": "teacher", "educationalInstitution": "Universidade XYZ" },
+    { "id": 25, "fullName": "Simone Duarte", "email": "simone@example.com", "password": "hashed_password", "role": "teacher", "educationalInstitution": "Universidade ABC" }
+  ],
+
+  "projects": [
+    { "id": 1, "name": "Projeto A", "description": "IA aplicada à educação", "date": "2024-03-20", "coordinatorId": 1, "students": [ { "id": 2, "role": "Júnior" }, { "id": 3, "role": "Sênior" } ] },
+    { "id": 2, "name": "Projeto B", "description": "Sistema de recomendação", "date": "2024-04-10", "coordinatorId": 1, "students": [ { "id": 6, "role": "Júnior" }, { "id": 7, "role": "Estágio" } ] },
+    { "id": 3, "name": "Projeto C", "description": "Plataforma de cursos", "date": "2024-05-01", "coordinatorId": 4, "students": [ { "id": 5, "role": "Sênior" }, { "id": 2, "role": "Júnior" }, { "id": 8, "role": "Estágio" } ] },
+    { "id": 4, "name": "Projeto D", "description": "Aplicativo de saúde", "date": "2024-06-12", "coordinatorId": 23, "students": [ { "id": 10, "role": "Júnior" }, { "id": 12, "role": "Sênior" } ] },
+    { "id": 5, "name": "Projeto E", "description": "Controle de gastos públicos", "date": "2024-07-04", "coordinatorId": 4, "students": [ { "id": 13, "role": "Estágio" }, { "id": 9, "role": "Júnior" } ] },
+    { "id": 6, "name": "Projeto F", "description": "Inclusão digital", "date": "2024-08-23", "coordinatorId": 24, "students": [ { "id": 14, "role": "Sênior" }, { "id": 15, "role": "Estágio" } ] },
+    { "id": 7, "name": "Projeto G", "description": "Gamificação no ensino", "date": "2024-09-30", "coordinatorId": 23, "students": [ { "id": 11, "role": "Júnior" }, { "id": 20, "role": "Estágio" } ] },
+    { "id": 8, "name": "Projeto H", "description": "Chatbot para suporte educacional", "date": "2024-10-15", "coordinatorId": 25, "students": [ { "id": 16, "role": "Sênior" }, { "id": 17, "role": "Estágio" } ] },
+    { "id": 9, "name": "Projeto I", "description": "Sistema de matrícula online", "date": "2024-11-11", "coordinatorId": 25, "students": [ { "id": 18, "role": "Júnior" }, { "id": 19, "role": "Estágio" } ] },
+    { "id": 10, "name": "Projeto J", "description": "Plataforma de pesquisa", "date": "2024-12-05", "coordinatorId": 24, "students": [ { "id": 21, "role": "Sênior" }, { "id": 22, "role": "Júnior" } ] },
+    { "id": 11, "name": "Projeto K", "description": "Sistema de avaliação automática", "date": "2025-01-10", "coordinatorId": 4, "students": [ { "id": 6, "role": "Estágio" }, { "id": 7, "role": "Júnior" } ] },
+    { "id": 12, "name": "Projeto L", "description": "Biblioteca Digital", "date": "2025-02-17", "coordinatorId": 1, "students": [ { "id": 8, "role": "Sênior" }, { "id": 13, "role": "Júnior" } ] }
+  ]
+}
