@@ -6,11 +6,27 @@
 }
 
 .project-icons {
-    display: flex;
-    justify-content: space-evenly;
+    display: grid;
+    /* Cria colunas com, no mínimo, 200px (ou ajuste conforme seu design) e, no máximo, 1fr.
+       O auto-fit fará com que se houver menos itens, cada um ocupe uma coluna que expande proporcionalmente.
+       Com max-width definido no container, serão, no máximo, 4 colunas (800px / 200px = 4). */
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
     gap: 12px;
     width: 100%;
     max-width: 800px;
+  }
+  
+
+@media (max-width: 768px) {
+    .project-icons {
+        grid-template-columns: repeat(2, 1fr);
+    }
+}
+
+@media (min-width: 769px) and (max-width: 1024px) {
+    .project-icons {
+        grid-template-columns: repeat(3, 1fr);
+    }
 }
 
 .project-card {
@@ -21,7 +37,6 @@
     border-radius: 10px;
     padding: 12px;
     box-shadow: 0px 4px 6px -2px rgba(0, 0, 0, 0.1);
-    flex: 1; 
     text-align: center;
 }
 
