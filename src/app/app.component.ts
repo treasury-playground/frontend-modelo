@@ -10,7 +10,7 @@ import { TopBarComponent } from "./components/top-bar/top-bar.component";
   selector: 'app-root',
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.css'],
-  imports: [RouterOutlet, SidebarComponent, PageContainerComponent, TopBarComponent]
+  imports: [RouterOutlet]
 })
 export class AppComponent implements OnInit {
   usuarios: any[] = [];
