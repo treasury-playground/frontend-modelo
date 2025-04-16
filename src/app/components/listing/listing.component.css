@@ -1,3 +1,62 @@
+.search-bar {
+    position: relative;
+    width: 100%;
+}
+
+.search-bar input {
+    width: 100%;
+    padding: 8px 40px 8px 8px;
+    font-size: 16px;
+    box-sizing: border-box;
+}
+
+.search-icon {
+    position: absolute;
+    right: 10px;
+    top: 50%;
+    transform: translateY(-50%);
+    font-size: 20px;
+    color: #aaa;
+}
+
+.middle-section {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin: 10px 0;
+}
+
+.projects-text {
+    font-size: 18px;
+    font-weight: bold;
+}
+
+.actions {
+    display: flex;
+    gap: 10px;
+}
+
+.actions button {
+    padding: 8px 16px;
+    border: none;
+    cursor: pointer;
+    background-color: #ddd;
+    color: #333;
+    border-radius: 4px;
+    transition: background-color 0.3s ease;
+}
+
+/* Regras mais específicas para os botões ativos */
+.actions button.download-btn.active {
+    background-color: #177cb3;
+    color: #fff;
+}
+
+.actions button.delete-btn.active {
+    background-color: #b31717;
+    color: #fff;
+}
+
 .listing-container {
     padding: 20px;
     background-color: white;
@@ -19,4 +78,91 @@
 .custom-table th {
     text-align: left;
     font-weight: bold;
+}
+
+.toggle-arrow {
+    cursor: pointer;
+    font-size: 18px;
+    color: #666;
+}
+
+.participant-pill {
+    padding: 4px 8px;
+    border-radius: 12px;
+    display: inline-block;
+    margin: 2px 2px;
+    font-size: 14px;
+}
+
+.coordinator-pill {
+    background-color: #d9f5fd;
+    color: #0063b8;
+}
+
+.student-pill {
+    background-color: #e0e0e0;
+    color: #6e6e6e;
+}
+
+.student-pill.extra {
+    font-weight: bold;
+}
+
+.edit-icon {
+    cursor: pointer;
+    font-size: 18px;
+    color: #666;
+    margin: 0 8px;
+}
+
+.pagination-container {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-top: 16px;
+    padding-top: 8px;
+    border-top: 1px solid #ccc;
+}
+
+.page-info p {
+    margin: 0;
+    font-size: 14px;
+    color: #666;
+}
+
+.paginator-wrapper {
+    flex-grow: 1;
+    display: flex;
+    justify-content: center;
+}
+
+.add-project-wrapper {
+    display: flex;
+    align-items: center;
+}
+
+.add-project {
+    padding: 8px 16px;
+    border: none;
+    background-color: #157db4;
+    color: #fff;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.add-project:hover {
+    background-color: #126699;
+}
+
+.pagination-container {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-top: 20px;
+}
+
+.add-project-button {
+    flex: 1;
+    text-align: right;
 }
