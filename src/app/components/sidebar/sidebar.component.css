@@ -32,7 +32,6 @@
     margin: 10px 0;
 }
 
-/* Estilização para o dropdown */
 .dropdown-projects {
     margin-top: 5px;
     margin-left: 20px;
@@ -50,13 +49,11 @@
     margin: 0 auto 35px;
 }
 
-/* Caso queira destacar o link do dropdown no hover */
 .dropdown-toggle:hover {
     background-color: rgba(255, 255, 255, 0.1);
     border-radius: 5px;
 }
 
-/* Remove setinhas ou triângulos extras gerados por pseudo-elementos */
 .dropdown-toggle::after {
     content: none !important;
   }

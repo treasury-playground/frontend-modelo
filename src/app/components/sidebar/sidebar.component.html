@@ -9,7 +9,6 @@
       </a>
     </li>
     <li>
-      <!-- Ao clicar, chama o método toggleDropdown() -->
       <a routerLink="menu/listing" (click)="toggleDropdown()" class="dropdown-toggle">
         <span class="pi pi-clipboard"></span> Listing
         <span
@@ -20,7 +19,6 @@
           }"
         ></span>
       </a>
-      <!-- Se o dropdown estiver aberto, exibe a lista de projetos -->
       <ul *ngIf="isDropdownOpen" class="dropdown-projects">
         <li *ngFor="let project of projects">
           <a routerLink="/project/{{ project.id }}">
