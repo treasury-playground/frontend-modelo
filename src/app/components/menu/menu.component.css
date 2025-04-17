@@ -7,9 +7,6 @@
 
 .project-icons {
     display: grid;
-    /* Cria colunas com, no mínimo, 200px (ou ajuste conforme seu design) e, no máximo, 1fr.
-       O auto-fit fará com que se houver menos itens, cada um ocupe uma coluna que expande proporcionalmente.
-       Com max-width definido no container, serão, no máximo, 4 colunas (800px / 200px = 4). */
     grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
     gap: 12px;
     width: 100%;
