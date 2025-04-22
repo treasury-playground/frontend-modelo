@@ -22,23 +22,27 @@ export class ProjectListingComponent {
   userType: 'teacher' | 'student' = 'teacher';
   selectAll: boolean = false;
 
-  allProjects = [
-    {
-      name: 'Project 1',
-      description: '',
-      date: '03/24/2024',
-      coordinator: 'Luis Tiago',
-      students: ['dev.cerros', 'salmonads'],
-      selected: false
-    },
-    {
-      name: 'Project 2',
-      description: '...',
-      date: '03/24/2024',
-      coordinator: 'Luis Tiago',
-      students: ['dev.penna', 'salmonads'],
-      selected: false
-    },
+    allProjects = [
+      {
+        id: 1,
+        name: 'Project 1',
+        description: '',
+        date: '03/24/2024',
+        coordinator: 'Luis Tiago',
+        students: ['dev.cerros', 'salmonads'],
+        selected: false
+      },
+      {
+        id: 2,
+        name: 'Project 2',
+        description: '...',
+        date: '03/24/2024',
+        coordinator: 'Luis Tiago',
+        students: ['dev.penna', 'salmonads'],
+        selected: false
+      },
+    
+    
     {
       name: 'Project 3',
       description: '...',
@@ -159,6 +163,26 @@ descriptionLength: any;
     this.isEditMode = true;
     this.showModal = true;
   }
+
+  handleProjectUpdate(updatedProject: any) {
+    const index = this.allProjects.findIndex(p => p.id === updatedProject.id);
+  
+    const projectToInsert = {
+      ...updatedProject,
+      students: updatedProject.assignedStudents.map((s: any) => s.name),
+      selected: false,
+      date: new Date().toLocaleDateString() 
+    };
+  
+    if (index !== -1) {
+      this.allProjects[index] = projectToInsert;
+    } else {
+      this.allProjects.push(projectToInsert);
+    }
+  }
+  
+  
+  
   
   
   

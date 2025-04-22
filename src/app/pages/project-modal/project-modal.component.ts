@@ -1,4 +1,5 @@
 import { Component, EventEmitter, Input, Output, OnInit } from '@angular/core';
+import { NgSelectModule } from '@ng-select/ng-select';
 import { CommonModule } from '@angular/common';
 import {
   FormBuilder,
@@ -11,7 +12,7 @@ import { FormsModule } from '@angular/forms';
 @Component({
   selector: 'app-project-modal',
   standalone: true,
-  imports: [CommonModule, ReactiveFormsModule, FormsModule],
+  imports: [CommonModule, ReactiveFormsModule, FormsModule, NgSelectModule],
   templateUrl: './project-modal.component.html',
   styleUrls: ['./project-modal.component.css']
 })
@@ -19,9 +20,9 @@ export class ProjectModalComponent implements OnInit {
   @Input() isEditMode: boolean = false;
   @Input() projectToEdit: any = null;
   @Output() close = new EventEmitter<void>();
+  @Output() save = new EventEmitter<any>();
 
   submitted = false;
-
   form: FormGroup;
   maxChars = 200;
 
@@ -31,9 +32,12 @@ export class ProjectModalComponent implements OnInit {
   }[] = [];
 
   availableStudents: string[] = ['Davi Gomes', 'Elli Morais', 'Eloquinn Teixeira', 'Beatriz Silva'];
+  roles: string[] = ['Trainee', 'Junior', 'Senior', 'Master'];
+
   selectedStudent: string = '';
+  selectedRole: string = '';
+
   assignedStudents: { name: string; role: string }[] = [];
-  selectedStudents: string[] = [];
 
   constructor(private fb: FormBuilder) {
     this.form = this.fb.group({
@@ -42,6 +46,7 @@ export class ProjectModalComponent implements OnInit {
       description: ['', [Validators.required, Validators.maxLength(this.maxChars)]]
     });
   }
+
   ngOnInit(): void {
     if (this.isEditMode && this.projectToEdit) {
       this.form.patchValue({
@@ -49,16 +54,11 @@ export class ProjectModalComponent implements OnInit {
         coordinator: this.projectToEdit.coordinator,
         description: this.projectToEdit.description
       });
-  
+
       this.assignedStudents = this.projectToEdit.assignedStudents || [];
       this.uploadedFiles = this.projectToEdit.files || [];
     }
-  
-    setTimeout(() => {
-      this.form.updateValueAndValidity();
-    });
   }
-  
 
   get descriptionLength(): number {
     return this.form.get('description')?.value?.length || 0;
@@ -88,24 +88,22 @@ export class ProjectModalComponent implements OnInit {
     this.uploadedFiles[index].status = 'ready';
   }
 
-  addStudentOnly() {
-    if (
-      this.selectedStudent &&
-      !this.assignedStudents.some(s => s.name === this.selectedStudent)
-    ) {
-      this.assignedStudents.push({
-        name: this.selectedStudent,
-        role: ''
-      });
-      this.selectedStudents.push(this.selectedStudent);
-      this.selectedStudent = '';
+  assignStudentWithRole() {
+    if (!this.selectedStudent || !this.selectedRole) return;
+
+    const alreadyAssignedIndex = this.assignedStudents.findIndex(s => s.name === this.selectedStudent);
+    if (alreadyAssignedIndex !== -1) {
+      this.assignedStudents[alreadyAssignedIndex].role = this.selectedRole;
+    } else {
+      this.assignedStudents.push({ name: this.selectedStudent, role: this.selectedRole });
     }
+
+    this.selectedStudent = '';
+    this.selectedRole = '';
   }
 
-  removeAssignedStudent(index: number) {
-    const removed = this.assignedStudents[index];
-    this.assignedStudents.splice(index, 1);
-    this.selectedStudents = this.selectedStudents.filter(s => s !== removed.name);
+  removeAssignedStudent(name: string) {
+    this.assignedStudents = this.assignedStudents.filter(s => s.name !== name);
   }
 
   onSave() {
@@ -116,13 +114,18 @@ export class ProjectModalComponent implements OnInit {
       return;
     }
 
+    const today = new Date();
+    const formattedDate = today.toLocaleDateString('en-US');
+
     const projectData = {
       ...this.form.value,
       assignedStudents: this.assignedStudents,
-      files: this.uploadedFiles
+      files: this.uploadedFiles,
+      date: formattedDate,
+      id: this.projectToEdit?.id || Date.now()
     };
 
-    console.log(this.isEditMode ? 'Projeto atualizado:' : 'Projeto salvo:', projectData);
+    this.save.emit(projectData);
     this.close.emit();
   }
 }

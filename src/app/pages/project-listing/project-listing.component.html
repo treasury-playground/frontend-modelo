@@ -154,5 +154,6 @@
   *ngIf="userType === 'teacher' && showModal"
   [isEditMode]="isEditMode"
   [projectToEdit]="projectBeingEdited"
-  (close)="closeModal()">
+  (close)="closeModal()"
+  (save)="handleProjectUpdate($event)">
 </app-project-modal>
