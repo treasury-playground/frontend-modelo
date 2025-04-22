@@ -22,45 +22,49 @@ export class ProjectListingComponent {
   userType: 'teacher' | 'student' = 'teacher';
   selectAll: boolean = false;
 
-    allProjects = [
-      {
-        id: 1,
-        name: 'Project 1',
-        description: '',
-        date: '03/24/2024',
-        coordinator: 'Luis Tiago',
-        students: ['dev.cerros', 'salmonads'],
-        selected: false
-      },
-      {
-        id: 2,
-        name: 'Project 2',
-        description: '...',
-        date: '03/24/2024',
-        coordinator: 'Luis Tiago',
-        students: ['dev.penna', 'salmonads'],
-        selected: false
-      },
-    
-    
+  allProjects = [
     {
-      name: 'Project 3',
-      description: '...',
+      id: 1,
+      name: 'Project 1',
+      description: '',
       date: '03/24/2024',
-      coordinator: 'Luis Tiago',
-      students: ['dev.campos', 'salmonads'],
+      coordinator: '',
+      assignedStudents: [
+        { name: 'Davi Gomes', role: 'Trainee' },
+        { name: 'Beatriz Silva', role: 'Senior' }
+      ],
       selected: false
     },
     {
+      id: 2,
+      name: 'Project 2',
+      description: '...',
+      date: '03/24/2024',
+      coordinator: '',
+      assignedStudents: [
+        { name: 'Elli Morais', role: 'Junior' }
+      ],
+      selected: false
+    },
+    {
+      id: 3,
+      name: 'Project 3',
+      description: '...',
+      date: '03/24/2024',
+      coordinator: '',
+      assignedStudents: [],
+      selected: false
+    },
+    {
+      id: 4,
       name: 'Project 4',
       description: '..',
       date: '03/24/2024',
-      coordinator: 'Luis Tiago',
-      students: ['dev.junior', 'salmonads'],
+      coordinator: '',
+      assignedStudents: [],
       selected: false
     }
   ];
-descriptionLength: any;
 
   get filteredProjects() {
     const term = this.searchControl.value?.toLowerCase() || '';
@@ -91,7 +95,6 @@ descriptionLength: any;
     this.isEditMode = false;
     this.projectBeingEdited = null;
   }
-  
 
   toggleDetails(index: number) {
     this.expandedIndex = this.expandedIndex === index ? null : index;
@@ -107,16 +110,14 @@ descriptionLength: any;
 
   deleteSelectedProjects() {
     const count = this.allProjects.filter(p => p.selected).length;
-  
     if (count === 0) return;
-  
+
     const confirmed = window.confirm(`Are you sure you want to delete ${count} selected project(s)?`);
-  
     if (confirmed) {
       this.allProjects = this.allProjects.filter(p => !p.selected);
     }
   }
-  
+
   ngOnInit() {
     const storedUser = localStorage.getItem('userType');
     if (storedUser === 'teacher' || storedUser === 'student') {
@@ -126,39 +127,32 @@ descriptionLength: any;
 
   downloadSelectedProjects() {
     const selected = this.paginatedProjects.filter(p => p.selected);
-  
     if (selected.length === 0) {
       alert('No projects selected to download.');
       return;
     }
-  
+
     const date = new Date();
-    const formattedDate = `${date.getFullYear()}-${(date.getMonth()+1)
-      .toString()
-      .padStart(2, '0')}-${date.getDate().toString().padStart(2, '0')}`;
-  
+    const formattedDate = `${date.getFullYear()}-${(date.getMonth()+1).toString().padStart(2, '0')}-${date.getDate().toString().padStart(2, '0')}`;
     const userName = localStorage.getItem('userName') || 'user';
-  
     const filename = `projects_${userName}_${formattedDate}.json`;
-  
+
     const blob = new Blob([JSON.stringify(selected, null, 2)], { type: 'application/json' });
     const url = window.URL.createObjectURL(blob);
-  
+
     const a = document.createElement('a');
     a.href = url;
     a.download = filename;
     a.click();
-  
+
     window.URL.revokeObjectURL(url);
   }
-  
 
-  
   onEditProject(project: any) {
     this.projectBeingEdited = {
       ...project,
-      assignedStudents: project.students.map((s: string) => ({ name: s, role: '' })), 
-      files: [] 
+      assignedStudents: project.assignedStudents || [],
+      files: []
     };
     this.isEditMode = true;
     this.showModal = true;
@@ -166,24 +160,19 @@ descriptionLength: any;
 
   handleProjectUpdate(updatedProject: any) {
     const index = this.allProjects.findIndex(p => p.id === updatedProject.id);
-  
+
     const projectToInsert = {
       ...updatedProject,
+      assignedStudents: updatedProject.assignedStudents,
       students: updatedProject.assignedStudents.map((s: any) => s.name),
       selected: false,
-      date: new Date().toLocaleDateString() 
+      date: new Date().toLocaleDateString()
     };
-  
+
     if (index !== -1) {
       this.allProjects[index] = projectToInsert;
     } else {
       this.allProjects.push(projectToInsert);
     }
   }
-  
-  
-  
-  
-  
-  
 }

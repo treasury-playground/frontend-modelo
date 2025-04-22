@@ -74,8 +74,15 @@
             <span class="badge bg-info text-dark">{{ project.coordinator }}</span>
           </td>
           <td>
-            <span *ngFor="let student of project.students" class="badge bg-secondary me-1">
-              {{ student }}
+            <span *ngFor="let student of project.assignedStudents || []" class="badge me-1"
+                  [ngClass]="{
+                    'bg-warning text-dark': student.role === 'Trainee',
+                    'bg-info text-dark': student.role === 'Junior',
+                    'bg-success text-white': student.role === 'Senior',
+                    'bg-primary text-white': student.role === 'Master',
+                    'bg-secondary': !student.role
+                  }">
+              {{ student.name }} <span *ngIf="student.role">— {{ student.role }}</span>
             </span>
           </td>
           <td>
@@ -102,8 +109,17 @@
                 <p><strong>Description:</strong> {{ project.description }}</p>
                 <p><strong>Coordinator:</strong> <span class="badge bg-info text-dark">{{ project.coordinator }}</span></p>
                 <p><strong>Students:</strong>
-                  <ng-container *ngFor="let s of project.students">
-                    <span class="badge bg-secondary me-1">{{ s }}</span>
+                  <ng-container *ngFor="let s of project.assignedStudents || []">
+                    <span class="badge me-1"
+                          [ngClass]="{
+                            'bg-warning text-dark': s.role === 'Trainee',
+                            'bg-info text-dark': s.role === 'Junior',
+                            'bg-success text-white': s.role === 'Senior',
+                            'bg-primary text-white': s.role === 'Master',
+                            'bg-secondary': !s.role
+                          }">
+                      {{ s.name }} <span *ngIf="s.role">— {{ s.role }}</span>
+                    </span>
                   </ng-container>
                 </p>
                 <p><strong>Upload:</strong> 7/17/2022 7:04 PM</p>
