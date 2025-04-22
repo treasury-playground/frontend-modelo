@@ -3,49 +3,92 @@
   <div class="modal-dialog modal-xl modal-dialog-centered">
     <div class="modal-content border-0 rounded-3 shadow-sm">
       <div class="modal-header border-bottom-0">
-        <h5 class="modal-title fw-bold">{{ isEditMode ? 'Edit Project' : 'New Project' }}</h5>
+        <h5 class="modal-title fw-bold">New Project</h5>
         <button type="button" class="btn-close" (click)="close.emit()"></button>
       </div>
 
       <form [formGroup]="form" (ngSubmit)="onSave()" class="needs-validation" novalidate>
         <div class="modal-body">
-          <div class="row mb-3">
+          <p class="text-muted mb-4">
+            Upload new documents referring to the projects and fill in the detail fields.
+          </p>
+
+          <div class="border rounded p-3 mb-4">
+            <div class="d-flex justify-content-between align-items-center mb-2">
+              <strong>Documents</strong>
+              <button type="button" class="btn btn-outline-secondary btn-sm" (click)="fileInput.click()">
+                <i class="bi bi-upload me-1"></i> Browse Files
+              </button>
+            </div>
+
+            <div class="text-muted small mb-3">
+              {{ uploadedFiles.length }} File – {{ totalSizeKB | number:'1.0-0' }} KB approximate total
+            </div>
+
+            <div class="upload-dropzone d-flex flex-column justify-content-center align-items-center text-muted text-center py-5">
+              <span class="mb-2">Choose a file or drag it here</span>
+              <input #fileInput id="fileInput" type="file" multiple hidden (change)="onFileSelected($event)" />
+            </div>
+
+            <ul class="mt-3 list-group small" *ngIf="uploadedFiles.length > 0">
+              <li *ngFor="let item of uploadedFiles; let i = index" class="list-group-item d-flex justify-content-between align-items-center">
+                <div>
+                  {{ item.file.name }} ({{ item.file.size / 1024 | number:'1.0-0' }} KB)
+                </div>
+                <div class="d-flex align-items-center gap-2">
+                  <span class="badge"
+                        [ngClass]="{
+                          'bg-success text-white': item.status === 'ready',
+                          'bg-secondary text-white': item.status === 'canceled',
+                          'bg-danger text-white': item.status === 'error'
+                        }">
+                    {{
+                      item.status === 'ready' ? 'Ready' :
+                      item.status === 'canceled' ? 'Canceled' : 'Error'
+                    }}
+                  </span>
+                  <i class="bi bi-x-lg text-danger" role="button" *ngIf="item.status === 'ready'" (click)="removeFile(i)"></i>
+                  <i class="bi bi-arrow-clockwise text-muted" role="button" *ngIf="item.status !== 'ready'" (click)="retryFile(i)"></i>
+                </div>
+              </li>
+            </ul>
+          </div>
+
+          <div class="row mb-3 align-items-end">
             <div class="col-md-3">
-              <label class="form-label small text-muted">Nome do Projeto</label>
-              <input type="text" formControlName="name" class="form-control" placeholder="Nome do Projeto" />
+              <label class="form-label small text-muted">Name of Project</label>
+              <input type="text" formControlName="name" class="form-control" placeholder="Project name" />
               <div class="text-danger small mt-1" *ngIf="submitted && form.get('name')?.invalid">
                 Campo obrigatório.
               </div>
             </div>
 
             <div class="col-md-3">
-              <label class="form-label small text-muted">Coordenador</label>
-              <input type="text" formControlName="coordinator" class="form-control" placeholder="Nome do Coordenador" />
+              <label class="form-label small text-muted">Coordinator</label>
+              <input type="text" formControlName="coordinator" class="form-control" placeholder="Coordinator" />
               <div class="text-danger small mt-1" *ngIf="submitted && form.get('coordinator')?.invalid">
                 Campo obrigatório.
               </div>
             </div>
 
             <div class="col-md-3">
-              <label class="form-label small text-muted">Estudantes</label>
-              <select class="form-select form-select-sm" [(ngModel)]="selectedStudent" [ngModelOptions]="{standalone: true}">
-                <option value="" disabled selected>Selecionar estudante</option>
-                <option *ngFor="let student of availableStudents" [value]="student">{{ student }}</option>
+              <label class="form-label small text-muted">Students</label>
+              <select class="form-select" [(ngModel)]="selectedStudent" name="selectedStudent" [ngModelOptions]="{standalone: true}">
+                <option value="">Select student</option>
+                <option *ngFor="let s of availableStudents" [value]="s">{{ s }}</option>
               </select>
             </div>
 
             <div class="col-md-2">
-              <label class="form-label small text-muted">Papel</label>
-              <select class="form-select form-select-sm" [(ngModel)]="selectedRole" [ngModelOptions]="{standalone: true}">
-                <option value="" disabled selected>Selecionar papel</option>
-                <option *ngFor="let role of roles" [value]="role">{{ role }}</option>
+              <label class="form-label small text-muted">Role</label>
+              <select class="form-select" [(ngModel)]="selectedRole" name="selectedRole" [ngModelOptions]="{standalone: true}">
+                <option value="">Select role</option>
+                <option *ngFor="let r of roles" [value]="r">{{ r }}</option>
               </select>
             </div>
 
-            <div class="col-md-1 d-flex align-items-end">
-              <button type="button" class="btn btn-outline-primary w-100 py-1" (click)="assignStudentWithRole()">
-                <i class="bi bi-plus"></i>
-              </button>
+            <div class="col-md-1 text-end">
+              <button type="button" class="btn btn-outline-primary w-100" (click)="assignStudentWithRole()">+</button>
             </div>
           </div>
 
@@ -65,9 +108,13 @@
             </ng-container>
           </div>
 
-          <div class="mb-3">
-            <label class="form-label small text-muted">Descrição</label>
-            <textarea formControlName="description" class="form-control" rows="3" [maxLength]="maxChars" placeholder="Descrição do projeto..."></textarea>
+          <div class="mb-3 mt-4">
+            <label class="form-label small text-muted">Description</label>
+            <textarea formControlName="description"
+                      class="form-control"
+                      rows="3"
+                      [maxLength]="maxChars"
+                      placeholder="Project description..."></textarea>
             <div class="text-end small text-muted mt-1">{{ descriptionLength }}/{{ maxChars }}</div>
             <div class="text-danger small mt-1" *ngIf="submitted && form.get('description')?.invalid">
               Campo obrigatório.
@@ -75,9 +122,9 @@
           </div>
 
           <div class="modal-footer border-top-0">
-            <button type="button" class="btn btn-outline-secondary px-4" (click)="close.emit()">Cancelar</button>
+            <button type="button" class="btn btn-outline-secondary px-4" (click)="close.emit()">Cancel</button>
             <button type="submit" class="btn btn-primary px-4">
-              {{ isEditMode ? 'Update' : 'Salvar' }}
+              {{ isEditMode ? 'Update' : 'Save' }}
             </button>
           </div>
         </div>
