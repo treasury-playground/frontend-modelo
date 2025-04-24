@@ -260,3 +260,88 @@ textarea.mat-input-element {
         padding: 24px;
     }
 }
+
+/* ===============================
+   ESCALA GERAL: reduz tudo dentro do modal
+   =============================== */
+:host {
+    /* todo texto, inputs e labels vão herdar essa base */
+    font-size: 0.875rem;
+    /* era ~1rem, agora 87,5% */
+    line-height: 1.2;
+    /* pra ocupar menos vertical */
+}
+
+/* título do header menor */
+.modal-header .modal-title {
+    font-size: 1.25rem;
+    /* antes era 2rem? ajuste aqui */
+    margin: 0;
+}
+
+/* inputs e selects mais compactos */
+.mat-form-field-appearance-outline .mat-form-field-outline {
+    /* contorno mais fininho */
+    stroke-width: 1px;
+}
+
+.mat-form-field-appearance-outline .mat-form-field-wrapper {
+    padding: 2px 6px;
+    /* antes 8px–12px */
+}
+
+.mat-form-field-infix {
+    padding: 0;
+    /* remove padding interno extra */
+}
+
+/* texto e placeholder */
+.mat-input-element,
+.mat-select-value-text {
+    font-size: 0.875rem;
+    padding: 4px 0;
+    /* menos altura */
+}
+
+/* textarea com menos rows por padrão */
+.description-section textarea.mat-input-element {
+    min-height: 4em;
+    /* controla altura mínima */
+    max-height: 6em;
+    /* evita ser muito alto */
+}
+
+/* gap e margens menores */
+.form-row {
+    gap: 0.5rem;
+    /* antes era 1rem+ */
+    margin: 0.5rem 0;
+}
+
+.form-group {
+    margin-bottom: 0.5rem;
+}
+
+/* upload box e file pills mais enxutos */
+.upload-box {
+    padding: 1rem;
+    /* antes 2rem+ */
+}
+
+.file-pill {
+    font-size: 0.75rem;
+    /* antes 0.875rem */
+    padding: 2px 6px;
+}
+
+/* botões de ação menores */
+.actions button {
+    font-size: 0.75rem;
+    padding: 4px 12px;
+}
+
+/* ícones menores */
+mat-icon {
+    font-size: 1rem;
+    /* antes 1.5rem–2rem */
+}

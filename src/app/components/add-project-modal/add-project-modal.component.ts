@@ -1,13 +1,14 @@
 import { Component, Inject, OnInit } from '@angular/core';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 import { FormControl, FormsModule, ReactiveFormsModule } from '@angular/forms';
-import { ApiService, User } from '../../services/api.service';
+import { ApiService} from '../../services/api.service';
 import { MatIconModule } from '@angular/material/icon';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatSelectModule } from '@angular/material/select';
 import { CommonModule } from '@angular/common';
 import { MatInputModule } from '@angular/material/input';
 import { MatOptionModule } from '@angular/material/core';
+import { CreateProjectDto, User } from '../../models/models';
 
 @Component({
   selector: 'app-add-project-modal',
@@ -102,15 +103,28 @@ export class AddProjectModalComponent implements OnInit {
   }
 
   onSave(): void {
-    const projectData = {
-      ...this.data,
-      students: (this.studentControl.value ?? []).map((studentId: number) => ({
-        id: studentId,
-        role: this.selectedRole
-      })),
-      files: this.selectedFiles
+    // Garanta que existem dados válidos
+    if (!this.data.projectName?.trim()) {
+      console.warn('Preencha o nome do projeto');
+      return;
+    }
+
+    const payload: CreateProjectDto = {
+      name: this.data.projectName.trim(),
+      description: this.data.description?.trim() || '',
+      date: new Date().toISOString().split('T')[0],  // e.g. "2025-04-23"
+      coordinatorId: 4,                              // hard-coded
+      students: this.selectedStudents                // já é Array<{id:number,role:string}>
     };
 
-    this.dialogRef.close(projectData);
+    this.apiService.createProject(payload).subscribe({
+      next: created => {
+        // aqui o `created.id` virá preenchido pelo JSON-Server
+        this.dialogRef.close(created);
+      },
+      error: err => {
+        console.error('Erro ao criar projeto', err);
+      }
+    });
   }
 }
