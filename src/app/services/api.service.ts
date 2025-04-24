@@ -1,23 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
-
-export interface User {
-  id: number;
-  fullName: string;
-  email: string;
-  role: string;
-  educationalInstitution: string; 
-}
-
-export interface Project {
-  id: number;
-  name: string;
-  description: string;
-  date: string;
-  coordinatorId: number;
-  students: Array<{ id: number; role: string }>;
-}
+import { CreateProjectDto, Project } from '../models/models';
 
 @Injectable({
   providedIn: 'root'
@@ -37,7 +21,7 @@ export class ApiService {
   }
   
   // POST
-  createProject(project: Project): Observable<Project> {
+  createProject(project: CreateProjectDto): Observable<Project> {
     return this.http.post<Project>(`${this.baseUrl}/projects`, project);
   }
 
@@ -47,7 +31,7 @@ export class ApiService {
   }
 
   // DELETE
-  deleteProject(id: number): Observable<any> {
+  deleteProject(id: string): Observable<any> {
     return this.http.delete(`${this.baseUrl}/projects/${id}`);
   }
 
