@@ -26,6 +26,10 @@ export class RegisterComponent {
 
   createAccount(): void {
     console.log('Dados do registro:', this.data);
-    this.router.navigate(['/menu']);
+    if (this.data.role === 'teacher') {
+      this.router.navigate(['/teacher/menu']);
+    } else {
+      this.router.navigate(['/student/menu']);
+    }
   }
 }
