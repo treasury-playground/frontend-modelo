@@ -10,33 +10,24 @@ import { forkJoin } from 'rxjs';
 import { MatPaginator, MatPaginatorModule } from '@angular/material/paginator';
 import { FormsModule } from '@angular/forms';
 import { MatDialog, MatDialogModule } from '@angular/material/dialog';
-import { AddProjectModalComponent } from '../add-project-modal/add-project-modal.component';
-
-interface Project {
-  id: number;
-  name: string;
-  description: string;
-  date: string;
-  coordinatorId: number;
-  students: { id: number, role: string }[];
-}
-
-interface User {
-  id: number;
-  fullName: string;
-  email: string;
-}
+import { Project, User } from '../../models/models';
 
 @Component({
-  selector: 'app-listing',
+  selector: 'app-student-listing',
   standalone: true,
-  imports: [MatDialogModule, FormsModule, MatPaginatorModule, CommonModule, MatTableModule, MatSortModule, MatCheckboxModule],
-  templateUrl: './listing.component.html',
-  styleUrls: ['./listing.component.css']
+  imports: [CommonModule,
+    FormsModule,
+    MatTableModule,
+    MatSortModule,
+    MatPaginatorModule,
+    MatCheckboxModule,
+    MatDialogModule],
+  templateUrl: './student-listing.component.html',
+  styleUrls: ['./student-listing.component.css']
 })
 
-export class ListingComponent implements OnInit, AfterViewInit {
-  displayedColumns: string[] = ['toggle', 'name', 'description', 'date', 'coordinator', 'students', 'edit', 'select'];
+export class StudentListingComponent implements OnInit, AfterViewInit {
+  displayedColumns: string[] = ['toggle', 'name', 'description', 'date', 'coordinator', 'students', 'select'];
   dataSource: MatTableDataSource<Project> = new MatTableDataSource();
 
   projects: Project[] = [];
@@ -52,35 +43,6 @@ export class ListingComponent implements OnInit, AfterViewInit {
     private cdRef: ChangeDetectorRef,
     private dialog: MatDialog
   ) { }
-
-  openAddProjectModal(): void {
-    const dialogRef = this.dialog.open(AddProjectModalComponent, {
-      width: '80vw', // Use viewport width
-      maxWidth: '1200px', // Largura máxima
-      autoFocus: false,
-      data: {
-        title: 'New Project',
-        projectName: '',
-        coordinator: '',
-        students: [],
-        description: ''
-      }
-    });
-
-    dialogRef.afterClosed().subscribe(result => {
-      if (result) {
-        // Aqui você receberá todos os dados formatados:
-        console.log('Dados do projeto:', {
-          name: result.projectName,
-          coordinator: result.coordinator,
-          students: result.students,
-          description: result.description,
-          files: result.files
-        });
-        // Implemente sua lógica de envio para a API aqui
-      }
-    });
-  }
 
   ngOnInit() {
     forkJoin({
@@ -117,26 +79,6 @@ export class ListingComponent implements OnInit, AfterViewInit {
 
   toggleDetails(project: Project) {
     this.expandedProject = this.expandedProject === project ? null : project;
-  }
-
-  deleteSelectedProjects(): void {
-    if (this.selectedProjects.selected.length === 0) {
-      return;
-    }
-
-    const deleteRequests = this.selectedProjects.selected.map((project: Project) =>
-      this.apiService.deleteProject(Number(project.id))
-    );
-
-    forkJoin(deleteRequests).subscribe({
-      next: () => {
-        const deletedIds = this.selectedProjects.selected.map((p: Project) => p.id);
-        this.projects = this.projects.filter(p => !deletedIds.includes(p.id));
-        this.dataSource.data = [...this.projects];
-        this.selectedProjects.clear();
-      },
-      error: err => console.error('Erro ao excluir projetos:', err)
-    });
   }
 
   getCurrentPageStart(): number {
