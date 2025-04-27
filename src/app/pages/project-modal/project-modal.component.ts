@@ -8,6 +8,7 @@ import {
   Validators
 } from '@angular/forms';
 import { FormsModule } from '@angular/forms';
+import { ApiService } from '../../services/api.service'; 
 
 @Component({
   selector: 'app-project-modal',
@@ -39,7 +40,7 @@ export class ProjectModalComponent implements OnInit {
 
   assignedStudents: { name: string; role: string }[] = [];
 
-  constructor(private fb: FormBuilder) {
+  constructor(private fb: FormBuilder, private apiService: ApiService) {
     this.form = this.fb.group({
       name: ['', Validators.required],
       coordinator: ['', Validators.required],
@@ -108,24 +109,28 @@ export class ProjectModalComponent implements OnInit {
 
   onSave() {
     this.submitted = true;
-
+  
     if (this.form.invalid || this.assignedStudents.length === 0) {
       alert('Fill all required fields and assign at least one student.');
       return;
     }
-
+  
     const today = new Date();
     const formattedDate = today.toLocaleDateString('en-US');
-
-    const projectData = {
+  
+    const projectData: any = {
       ...this.form.value,
       assignedStudents: this.assignedStudents,
       files: this.uploadedFiles,
       date: formattedDate,
-      id: this.projectToEdit?.id || Date.now()
     };
-
+  
+    if (this.isEditMode && this.projectToEdit?.id) {
+      projectData.id = this.projectToEdit.id; 
+    }
+  
     this.save.emit(projectData);
     this.close.emit();
   }
+  
 }

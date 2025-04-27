@@ -1,7 +1,8 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { ReactiveFormsModule, FormControl, FormsModule } from '@angular/forms';
 import { ProjectModalComponent } from '../project-modal/project-modal.component';
+import { ApiService } from '../../services/api.service';
 
 @Component({
   selector: 'app-project-listing',
@@ -10,7 +11,7 @@ import { ProjectModalComponent } from '../project-modal/project-modal.component'
   templateUrl: './project-listing.component.html',
   styleUrls: ['./project-listing.component.css']
 })
-export class ProjectListingComponent {
+export class ProjectListingComponent implements OnInit {
   isEditMode: boolean = false;
   projectBeingEdited: any = null;
 
@@ -22,49 +23,37 @@ export class ProjectListingComponent {
   userType: 'teacher' | 'student' = 'teacher';
   selectAll: boolean = false;
 
-  allProjects = [
-    {
-      id: 1,
-      name: 'Project 1',
-      description: '',
-      date: '03/24/2024',
-      coordinator: '',
-      assignedStudents: [
-        { name: 'Davi Gomes', role: 'Trainee' },
-        { name: 'Beatriz Silva', role: 'Senior' }
-      ],
-      selected: false
-    },
-    {
-      id: 2,
-      name: 'Project 2',
-      description: '...',
-      date: '03/24/2024',
-      coordinator: '',
-      assignedStudents: [
-        { name: 'Elli Morais', role: 'Junior' }
-      ],
-      selected: false
-    },
-    {
-      id: 3,
-      name: 'Project 3',
-      description: '...',
-      date: '03/24/2024',
-      coordinator: '',
-      assignedStudents: [],
-      selected: false
-    },
-    {
-      id: 4,
-      name: 'Project 4',
-      description: '..',
-      date: '03/24/2024',
-      coordinator: '',
-      assignedStudents: [],
-      selected: false
+  allProjects: any[] = [];
+
+  constructor(private apiService: ApiService) {}
+
+  ngOnInit() {
+    const storedUser = localStorage.getItem('userType');
+    if (storedUser === 'teacher' || storedUser === 'student') {
+      this.userType = storedUser;
     }
-  ];
+
+    this.loadProjects();
+  }
+
+  loadProjects() {
+    this.apiService.getProjetos().subscribe({
+      next: (projetos) => {
+        this.allProjects = projetos.map((proj: any) => ({
+          id: proj.id,
+          name: proj.name,
+          description: proj.description,
+          date: proj.date,
+          coordinator: proj.coordinator,
+          assignedStudents: proj.assignedStudents || [],
+          selected: false
+        }));
+      },
+      error: (error) => {
+        console.error('Erro ao buscar projetos:', error);
+      }
+    });
+  }
 
   get filteredProjects() {
     const term = this.searchControl.value?.toLowerCase() || '';
@@ -86,8 +75,10 @@ export class ProjectListingComponent {
     this.currentPage = page;
   }
 
-  openModal() {
+  openModal(project: any = null) {
     this.showModal = true;
+    this.isEditMode = !!project;
+    this.projectBeingEdited = project;
   }
 
   closeModal() {
@@ -108,20 +99,50 @@ export class ProjectListingComponent {
     return this.paginatedProjects.some(p => p.selected);
   }
 
-  deleteSelectedProjects() {
-    const count = this.allProjects.filter(p => p.selected).length;
-    if (count === 0) return;
+  onEditProject(project: any) {
+    this.openModal(project);
+  }
 
-    const confirmed = window.confirm(`Are you sure you want to delete ${count} selected project(s)?`);
-    if (confirmed) {
-      this.allProjects = this.allProjects.filter(p => !p.selected);
+  handleProjectUpdate(updatedProject: any) {
+    if (this.isEditMode) {
+      this.apiService.updateProjeto(updatedProject.id, updatedProject).subscribe({
+        next: () => {
+          this.loadProjects();
+          this.closeModal();
+        },
+        error: (error) => {
+          console.error('Erro ao atualizar projeto:', error);
+        }
+      });
+    } else {
+      this.apiService.addProjeto(updatedProject).subscribe({
+        next: (projetoSalvo) => {
+          this.loadProjects();
+          this.closeModal();
+        },
+        error: (error) => {
+          console.error('Erro ao salvar projeto:', error);
+        }
+      });
     }
   }
 
-  ngOnInit() {
-    const storedUser = localStorage.getItem('userType');
-    if (storedUser === 'teacher' || storedUser === 'student') {
-      this.userType = storedUser;
+  deleteSelectedProjects() {
+    const selected = this.paginatedProjects.filter(p => p.selected);
+    if (selected.length === 0) return;
+
+    const confirmed = window.confirm(`Are you sure you want to delete ${selected.length} selected project(s)?`);
+    if (confirmed) {
+      selected.forEach(project => {
+        this.apiService.deleteProjeto(project.id).subscribe({
+          next: () => {
+            this.loadProjects();
+          },
+          error: (error) => {
+            console.error('Erro ao deletar projeto:', error);
+          }
+        });
+      });
     }
   }
 
@@ -133,7 +154,7 @@ export class ProjectListingComponent {
     }
 
     const date = new Date();
-    const formattedDate = `${date.getFullYear()}-${(date.getMonth()+1).toString().padStart(2, '0')}-${date.getDate().toString().padStart(2, '0')}`;
+    const formattedDate = `${date.getFullYear()}-${(date.getMonth() + 1).toString().padStart(2, '0')}-${date.getDate().toString().padStart(2, '0')}`;
     const userName = localStorage.getItem('userName') || 'user';
     const filename = `projects_${userName}_${formattedDate}.json`;
 
@@ -146,33 +167,5 @@ export class ProjectListingComponent {
     a.click();
 
     window.URL.revokeObjectURL(url);
-  }
-
-  onEditProject(project: any) {
-    this.projectBeingEdited = {
-      ...project,
-      assignedStudents: project.assignedStudents || [],
-      files: []
-    };
-    this.isEditMode = true;
-    this.showModal = true;
-  }
-
-  handleProjectUpdate(updatedProject: any) {
-    const index = this.allProjects.findIndex(p => p.id === updatedProject.id);
-
-    const projectToInsert = {
-      ...updatedProject,
-      assignedStudents: updatedProject.assignedStudents,
-      students: updatedProject.assignedStudents.map((s: any) => s.name),
-      selected: false,
-      date: new Date().toLocaleDateString()
-    };
-
-    if (index !== -1) {
-      this.allProjects[index] = projectToInsert;
-    } else {
-      this.allProjects.push(projectToInsert);
-    }
   }
 }

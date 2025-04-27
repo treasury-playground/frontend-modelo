@@ -1,52 +1,78 @@
 {
-    "users": [
-      {
-        "id": 1,
-        "fullName": "Luiz Thiago",
-        "email": "luiz@example.com",
-        "password": "hashed_password",
-        "role": "teacher",
-        "educationalInstitution": "Universidade XYZ"
-      },
-      {
-        "id": 2,
-        "fullName": "Davi Gomes",
-        "email": "davi@example.com",
-        "password": "hashed_password",
-        "role": "student",
-        "educationalInstitution": "Universidade XYZ"
-      },
-      {
-        "id": 3,
-        "fullName": "Ester Souza",
-        "email": "ester@example.com",
-        "password": "hashed_password",
-        "role": "student",
-        "educationalInstitution": "Universidade ABC"
-      }
-    ],
-    "projects": [
-      {
-        "id": 1,
-        "name": "Project 1",
-        "description": "Descrição do Projeto 1",
-        "date": "2024-03-20",
-        "coordinatorId": 1,
-        "students": [
-          { "id": 2, "role": "Júnior" },
-          { "id": 3, "role": "Sênior" }
-        ]
-      },
-      {
-        "id": 2,
-        "name": "Project 2",
-        "description": "Descrição do Projeto 2",
-        "date": "2024-03-22",
-        "coordinatorId": 1,
-        "students": [
-          { "id": 3, "role": "Estágio" }
-        ]
-      }
-    ]
-  }
-  
+  "users": [
+    {
+      "id": "1",
+      "fullName": "Luiz Thiago",
+      "email": "luiz@example.com",
+      "password": "hashed_password",
+      "role": "teacher",
+      "educationalInstitution": "Universidade XYZ"
+    },
+    {
+      "id": "2",
+      "fullName": "Davi Gomes",
+      "email": "davi@example.com",
+      "password": "hashed_password",
+      "role": "student",
+      "educationalInstitution": "Universidade XYZ"
+    },
+    {
+      "id": "3",
+      "fullName": "Ester Souza",
+      "email": "ester@example.com",
+      "password": "hashed_password",
+      "role": "student",
+      "educationalInstitution": "Universidade ABC"
+    }
+  ],
+  "projects": [
+    {
+      "id": "1",
+      "name": "Project 1",
+      "description": "Descrição do Projeto 1",
+      "date": "2024-03-20",
+      "coordinatorId": 1,
+      "students": [
+        {
+          "id": 2,
+          "role": "Júnior"
+        },
+        {
+          "id": 3,
+          "role": "Sênior"
+        }
+      ]
+    },
+    {
+      "id": "2",
+      "name": "Project 2",
+      "description": "Descrição do Projeto 2",
+      "date": "2024-03-22",
+      "coordinatorId": 1,
+      "students": [
+        {
+          "id": 3,
+          "role": "Estágio"
+        }
+      ]
+    },
+    {
+      "name": "teste",
+      "coordinator": "teste",
+      "description": "teste",
+      "assignedStudents": [
+        {
+          "name": "Elli Morais",
+          "role": "Junior"
+        },
+        {
+          "name": "Davi Gomes",
+          "role": "Senior"
+        }
+      ],
+      "files": [],
+      "date": "4/27/2025",
+      "id": "7428"
+    }
+  ]
+}

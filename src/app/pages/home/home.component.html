@@ -1,6 +1,6 @@
 <div class="container px-4">
   <div class="row row-cols-1 row-cols-md-4 g-4">
-    <div class="col" *ngFor="let project of projects">
+    <div class="col" *ngFor="let project of filteredProjects">
       <div class="card project-card text-center">
         <div class="card-body">
           <i class="bi bi-clipboard-fill fs-1 mb-2 text-secondary"></i>
@@ -24,4 +24,11 @@
   </div>
 </div>
 
-<app-project-modal *ngIf="showModal" (close)="closeModal()"></app-project-modal>
+<app-project-modal
+  *ngIf="showModal"
+  [isEditMode]="isEditMode"
+  [projectToEdit]="projectBeingEdited"
+  (close)="closeModal()"
+  (save)="handleSaveProject($event)">
+</app-project-modal>
+
