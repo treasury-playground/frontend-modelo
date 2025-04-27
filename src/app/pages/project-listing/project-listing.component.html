@@ -21,29 +21,19 @@
     <thead class="table-light">
       <tr>
         <th></th>
-
-        <th (click)="sortBy('name')" role="button">
-          Nome do Projeto
-          <i class="bi ms-1" [ngClass]="getSortIcon('name')"></i>
+        <th role="button" (click)="sortBy('name')">
+          Name of Project <i class="bi" [ngClass]="getSortIcon('name')"></i>
         </th>
-
-        <th (click)="sortBy('description')" role="button">
-          Descrição
-          <i class="bi ms-1" [ngClass]="getSortIcon('description')"></i>
+        <th role="button" (click)="sortBy('description')">
+          Description <i class="bi" [ngClass]="getSortIcon('description')"></i>
         </th>
-
-        <th (click)="sortBy('date')" role="button">
-          Data
-          <i class="bi ms-1" [ngClass]="getSortIcon('date')"></i>
+        <th role="button" (click)="sortBy('date')">
+          Date <i class="bi" [ngClass]="getSortIcon('date')"></i>
         </th>
-
-        <th (click)="sortBy('coordinator')" role="button">
-          Coordenador
-          <i class="bi ms-1" [ngClass]="getSortIcon('coordinator')"></i>
+        <th role="button" (click)="sortBy('coordinator')">
+          Coordinator <i class="bi" [ngClass]="getSortIcon('coordinator')"></i>
         </th>
-
-        <th>Estudantes</th>
-
+        <th>Students</th>
         <th class="text-end">
           <div class="d-flex justify-content-end align-items-center gap-2">
             <button
@@ -59,11 +49,10 @@
               [disabled]="!hasSelectedProjects()"
               (click)="deleteSelectedProjects()"
             >
-              Excluir
+              Delete
             </button>
           </div>
         </th>
-
         <th class="text-center">
           <input
             type="checkbox"
@@ -88,15 +77,12 @@
               role="button"
             ></i>
           </td>
-
           <td>{{ project.name }}</td>
           <td class="text-muted small">{{ project.description }}</td>
           <td>{{ project.date }}</td>
-
           <td>
             <span class="badge bg-info text-dark">{{ project.coordinator }}</span>
           </td>
-
           <td>
             <span *ngFor="let student of project.assignedStudents || []" class="badge me-1"
                   [ngClass]="{
@@ -109,7 +95,6 @@
               {{ student.name }} <span *ngIf="student.role">— {{ student.role }}</span>
             </span>
           </td>
-
           <td class="text-end">
             <i
               *ngIf="userType === 'teacher'"
@@ -118,7 +103,6 @@
               (click)="onEditProject(project)"
             ></i>
           </td>
-
           <td class="text-center">
             <input type="checkbox" [(ngModel)]="project.selected" />
           </td>
@@ -170,9 +154,7 @@
         [disabled]="currentPage === 1"
         (click)="changePage(currentPage - 1)"
       >‹</button>
-
       <span>{{ currentPage }}</span>
-
       <button
         class="btn btn-sm btn-outline-primary"
         [disabled]="currentPage >= totalPages()"

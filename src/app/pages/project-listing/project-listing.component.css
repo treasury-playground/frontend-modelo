@@ -1,10 +1,62 @@
-.table th i {
-    font-size: 0.8rem;
+.table-hover tbody tr:hover {
+  background-color: #f8f9fa;
+}
+
+
+th {
+  cursor: pointer;
+  user-select: none;
+}
+
+th .bi {
+  font-size: 0.8rem;
+  margin-left: 5px;
+  transition: transform 0.2s ease;
+}
+
+th .bi.bi-arrow-up {
+  transform: rotate(0deg);
+}
+
+th .bi.bi-arrow-down {
+  transform: rotate(180deg);
+}
+
+th .bi.bi-arrow-down-up {
+  opacity: 0.5;
+}
+
+th.text-end button {
+  white-space: nowrap;
+}
+
+td.text-center,
+th.text-center {
+  vertical-align: middle;
+}
+
+td[colspan="8"] {
+  background-color: #f1f3f5;
+}
+
+@media (max-width: 768px) {
+  .table-responsive {
+    overflow-x: auto;
   }
-  
-  .badge {
-    font-size: 0.75rem;
-    border-radius: 10px;
-    padding: 0.3em 0.6em;
+
+  th, td {
+    white-space: nowrap;
   }
-  
+
+  .table {
+    width: 100%;
+  }
+}
+
+.btn-sm {
+  padding: 0.25rem 0.5rem;
+}
+
+.badge {
+  font-size: 0.75rem;
+}

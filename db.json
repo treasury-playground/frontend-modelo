@@ -27,16 +27,52 @@
   ],
   "projects": [
     {
+      "id": "1",
+      "name": "Project 1",
+      "description": "Sistema de monitoramento de água",
+      "date": "2024-03-20",
+      "coordinatorId": 1,
+      "students": [
+        { "id": 2, "role": "Júnior" },
+        { "id": 3, "role": "Sênior" }
+      ]
+    },
+    {
       "id": "2",
       "name": "Project 2",
       "description": "Descrição do Projeto 2",
       "date": "2024-03-22",
       "coordinatorId": 1,
       "students": [
-        {
-          "id": 3,
-          "role": "Estágio"
-        }
+        { "id": 3, "role": "Estágio" }
+      ]
+    },
+    {
+      "id": "3",
+      "name": "Project 3",
+      "description": "Aplicativo para controle de irrigação",
+      "date": "2024-03-25",
+      "coordinatorId": 1,
+      "students": [
+        { "id": 2, "role": "Trainee" }
+      ]
+    },
+    {
+      "id": "4",
+      "name": "Project 4",
+      "description": "Sistema de alertas meteorológicos",
+      "date": "2024-03-28",
+      "coordinatorId": 1,
+      "students": []
+    },
+    {
+      "id": "5",
+      "name": "Project 5",
+      "description": "Plataforma de gestão de recursos hídricos",
+      "date": "2024-04-01",
+      "coordinatorId": 1,
+      "students": [
+        { "id": 2, "role": "Master" }
       ]
     }
   ]

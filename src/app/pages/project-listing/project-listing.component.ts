@@ -24,8 +24,7 @@ export class ProjectListingComponent implements OnInit {
   selectAll: boolean = false;
 
   allProjects: any[] = [];
-
-  sortColumn: string = '';
+  sortField: string = '';
   sortDirection: 'asc' | 'desc' = 'asc';
 
   constructor(private apiService: ApiService) {}
@@ -60,17 +59,15 @@ export class ProjectListingComponent implements OnInit {
 
   get filteredProjects() {
     const term = this.searchControl.value?.toLowerCase() || '';
-    let filtered = this.allProjects.filter(p =>
-      p.name.toLowerCase().includes(term)
-    );
+    let filtered = this.allProjects.filter(p => p.name.toLowerCase().includes(term));
 
-    if (this.sortColumn) {
+    if (this.sortField) {
       filtered = [...filtered].sort((a, b) => {
-        const aValue = (a[this.sortColumn] || '').toString().toLowerCase();
-        const bValue = (b[this.sortColumn] || '').toString().toLowerCase();
-
-        if (aValue < bValue) return this.sortDirection === 'asc' ? -1 : 1;
-        if (aValue > bValue) return this.sortDirection === 'asc' ? 1 : -1;
+        const fieldA = (a[this.sortField] || '').toLowerCase?.() || '';
+        const fieldB = (b[this.sortField] || '').toLowerCase?.() || '';
+        
+        if (fieldA < fieldB) return this.sortDirection === 'asc' ? -1 : 1;
+        if (fieldA > fieldB) return this.sortDirection === 'asc' ? 1 : -1;
         return 0;
       });
     }
@@ -132,7 +129,7 @@ export class ProjectListingComponent implements OnInit {
       });
     } else {
       this.apiService.addProjeto(updatedProject).subscribe({
-        next: (projetoSalvo) => {
+        next: () => {
           this.loadProjects();
           this.closeModal();
         },
@@ -185,17 +182,20 @@ export class ProjectListingComponent implements OnInit {
     window.URL.revokeObjectURL(url);
   }
 
-  sortBy(column: string) {
-    if (this.sortColumn === column) {
+  sortBy(field: string) {
+    if (this.sortField === field) {
       this.sortDirection = this.sortDirection === 'asc' ? 'desc' : 'asc';
     } else {
-      this.sortColumn = column;
+      this.sortField = field;
       this.sortDirection = 'asc';
     }
+    this.currentPage = 1;
   }
 
-  getSortIcon(column: string): string {
-    if (this.sortColumn !== column) return 'bi bi-arrow-down-up';
+  getSortIcon(field: string) {
+    if (this.sortField !== field) {
+      return 'bi bi-arrow-down-up'; // Ícone neutro
+    }
     return this.sortDirection === 'asc' ? 'bi bi-arrow-up' : 'bi bi-arrow-down';
   }
 }
