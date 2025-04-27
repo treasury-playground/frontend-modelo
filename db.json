@@ -27,23 +27,6 @@
   ],
   "projects": [
     {
-      "id": "1",
-      "name": "Project 1",
-      "description": "Descrição do Projeto 1",
-      "date": "2024-03-20",
-      "coordinatorId": 1,
-      "students": [
-        {
-          "id": 2,
-          "role": "Júnior"
-        },
-        {
-          "id": 3,
-          "role": "Sênior"
-        }
-      ]
-    },
-    {
       "id": "2",
       "name": "Project 2",
       "description": "Descrição do Projeto 2",
@@ -55,24 +38,6 @@
           "role": "Estágio"
         }
       ]
-    },
-    {
-      "name": "teste",
-      "coordinator": "teste",
-      "description": "teste",
-      "assignedStudents": [
-        {
-          "name": "Elli Morais",
-          "role": "Junior"
-        },
-        {
-          "name": "Davi Gomes",
-          "role": "Senior"
-        }
-      ],
-      "files": [],
-      "date": "4/27/2025",
-      "id": "7428"
     }
   ]
 }

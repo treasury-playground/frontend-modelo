@@ -25,6 +25,9 @@ export class ProjectListingComponent implements OnInit {
 
   allProjects: any[] = [];
 
+  sortColumn: string = '';
+  sortDirection: 'asc' | 'desc' = 'asc';
+
   constructor(private apiService: ApiService) {}
 
   ngOnInit() {
@@ -57,9 +60,22 @@ export class ProjectListingComponent implements OnInit {
 
   get filteredProjects() {
     const term = this.searchControl.value?.toLowerCase() || '';
-    return this.allProjects.filter(p =>
+    let filtered = this.allProjects.filter(p =>
       p.name.toLowerCase().includes(term)
     );
+
+    if (this.sortColumn) {
+      filtered = [...filtered].sort((a, b) => {
+        const aValue = (a[this.sortColumn] || '').toString().toLowerCase();
+        const bValue = (b[this.sortColumn] || '').toString().toLowerCase();
+
+        if (aValue < bValue) return this.sortDirection === 'asc' ? -1 : 1;
+        if (aValue > bValue) return this.sortDirection === 'asc' ? 1 : -1;
+        return 0;
+      });
+    }
+
+    return filtered;
   }
 
   get paginatedProjects() {
@@ -167,5 +183,19 @@ export class ProjectListingComponent implements OnInit {
     a.click();
 
     window.URL.revokeObjectURL(url);
+  }
+
+  sortBy(column: string) {
+    if (this.sortColumn === column) {
+      this.sortDirection = this.sortDirection === 'asc' ? 'desc' : 'asc';
+    } else {
+      this.sortColumn = column;
+      this.sortDirection = 'asc';
+    }
+  }
+
+  getSortIcon(column: string): string {
+    if (this.sortColumn !== column) return 'bi bi-arrow-down-up';
+    return this.sortDirection === 'asc' ? 'bi bi-arrow-up' : 'bi bi-arrow-down';
   }
 }
