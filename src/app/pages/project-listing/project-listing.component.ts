@@ -12,19 +12,17 @@ import { ApiService } from '../../services/api.service';
   styleUrls: ['./project-listing.component.css']
 })
 export class ProjectListingComponent implements OnInit {
-  isEditMode: boolean = false;
+  isEditMode = false;
   projectBeingEdited: any = null;
-
   searchControl = new FormControl('');
   currentPage = 1;
   pageSize = 2;
   showModal = false;
   expandedIndex: number | null = null;
   userType: 'teacher' | 'student' = 'teacher';
-  selectAll: boolean = false;
-
+  selectAll = false;
   allProjects: any[] = [];
-  sortField: string = '';
+  sortField = '';
   sortDirection: 'asc' | 'desc' = 'asc';
 
   constructor(private apiService: ApiService) {}
@@ -34,7 +32,6 @@ export class ProjectListingComponent implements OnInit {
     if (storedUser === 'teacher' || storedUser === 'student') {
       this.userType = storedUser;
     }
-
     this.loadProjects();
   }
 
@@ -51,13 +48,12 @@ export class ProjectListingComponent implements OnInit {
           selected: false
         }));
       },
-      error: (error) => {
-        console.error('Erro ao buscar projetos:', error);
-      }
+      error: (error) => console.error('Erro ao buscar projetos:', error)
     });
   }
 
   get filteredProjects() {
+    if (!this.allProjects.length) return [];
     const term = this.searchControl.value?.toLowerCase() || '';
     let filtered = this.allProjects.filter(p => p.name.toLowerCase().includes(term));
 
@@ -65,13 +61,11 @@ export class ProjectListingComponent implements OnInit {
       filtered = [...filtered].sort((a, b) => {
         const fieldA = (a[this.sortField] || '').toLowerCase?.() || '';
         const fieldB = (b[this.sortField] || '').toLowerCase?.() || '';
-        
         if (fieldA < fieldB) return this.sortDirection === 'asc' ? -1 : 1;
         if (fieldA > fieldB) return this.sortDirection === 'asc' ? 1 : -1;
         return 0;
       });
     }
-
     return filtered;
   }
 
@@ -123,9 +117,7 @@ export class ProjectListingComponent implements OnInit {
           this.loadProjects();
           this.closeModal();
         },
-        error: (error) => {
-          console.error('Erro ao atualizar projeto:', error);
-        }
+        error: (error) => console.error('Erro ao atualizar projeto:', error)
       });
     } else {
       this.apiService.addProjeto(updatedProject).subscribe({
@@ -133,27 +125,21 @@ export class ProjectListingComponent implements OnInit {
           this.loadProjects();
           this.closeModal();
         },
-        error: (error) => {
-          console.error('Erro ao salvar projeto:', error);
-        }
+        error: (error) => console.error('Erro ao salvar projeto:', error)
       });
     }
   }
 
   deleteSelectedProjects() {
     const selected = this.paginatedProjects.filter(p => p.selected);
-    if (selected.length === 0) return;
+    if (!selected.length) return;
 
-    const confirmed = window.confirm(`Are you sure you want to delete ${selected.length} selected project(s)?`);
+    const confirmed = window.confirm(`Deseja excluir ${selected.length} projeto(s)?`);
     if (confirmed) {
       selected.forEach(project => {
         this.apiService.deleteProjeto(project.id).subscribe({
-          next: () => {
-            this.loadProjects();
-          },
-          error: (error) => {
-            console.error('Erro ao deletar projeto:', error);
-          }
+          next: () => this.loadProjects(),
+          error: (error) => console.error('Erro ao deletar projeto:', error)
         });
       });
     }
@@ -161,8 +147,8 @@ export class ProjectListingComponent implements OnInit {
 
   downloadSelectedProjects() {
     const selected = this.paginatedProjects.filter(p => p.selected);
-    if (selected.length === 0) {
-      alert('No projects selected to download.');
+    if (!selected.length) {
+      alert('Nenhum projeto selecionado para download.');
       return;
     }
 
@@ -193,9 +179,7 @@ export class ProjectListingComponent implements OnInit {
   }
 
   getSortIcon(field: string) {
-    if (this.sortField !== field) {
-      return 'bi bi-arrow-down-up'; // Ícone neutro
-    }
+    if (this.sortField !== field) return 'bi bi-arrow-down-up';
     return this.sortDirection === 'asc' ? 'bi bi-arrow-up' : 'bi bi-arrow-down';
   }
 }

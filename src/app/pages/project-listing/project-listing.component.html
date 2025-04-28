@@ -1,5 +1,5 @@
 <div class="d-flex justify-content-between align-items-center mb-4">
-  <h5 class="fw-bold">Listing</h5>
+  <h5 class="fw-bold">Listagem</h5>
 </div>
 
 <div class="card shadow-sm p-4">
@@ -8,13 +8,13 @@
       type="text"
       [formControl]="searchControl"
       class="form-control w-100 ps-3 pe-5"
-      placeholder="Search by Project"
+      placeholder="Pesquisar por Projeto"
     />
     <i class="bi bi-search position-absolute top-50 end-0 translate-middle-y me-3 text-muted" style="pointer-events: none;"></i>
   </div>
 
-  <div class="mb-2 text-muted small">
-    Projects ({{ filteredProjects.length < 10 ? '0' + filteredProjects.length : filteredProjects.length }})
+  <div class="mb-3 text-muted small">
+    Projetos ({{ filteredProjects.length < 10 ? '0' + filteredProjects.length : filteredProjects.length }})
   </div>
 
   <table class="table table-hover align-middle">
@@ -22,18 +22,18 @@
       <tr>
         <th></th>
         <th role="button" (click)="sortBy('name')">
-          Name of Project <i class="bi" [ngClass]="getSortIcon('name')"></i>
+          Nome do Projeto <i class="bi" [ngClass]="getSortIcon('name')"></i>
         </th>
         <th role="button" (click)="sortBy('description')">
-          Description <i class="bi" [ngClass]="getSortIcon('description')"></i>
+          Descrição <i class="bi" [ngClass]="getSortIcon('description')"></i>
         </th>
         <th role="button" (click)="sortBy('date')">
-          Date <i class="bi" [ngClass]="getSortIcon('date')"></i>
+          Data <i class="bi" [ngClass]="getSortIcon('date')"></i>
         </th>
         <th role="button" (click)="sortBy('coordinator')">
-          Coordinator <i class="bi" [ngClass]="getSortIcon('coordinator')"></i>
+          Coordenador <i class="bi" [ngClass]="getSortIcon('coordinator')"></i>
         </th>
-        <th>Students</th>
+        <th>Estudantes</th>
         <th class="text-end">
           <div class="d-flex justify-content-end align-items-center gap-2">
             <button
@@ -49,7 +49,7 @@
               [disabled]="!hasSelectedProjects()"
               (click)="deleteSelectedProjects()"
             >
-              Delete
+              Excluir
             </button>
           </div>
         </th>
@@ -115,10 +115,10 @@
                 <img src="" class="img-fluid rounded shadow-sm" alt="Preview" />
               </div>
               <div style="min-width: 300px;">
-                <p><strong>Name of project:</strong> {{ project.name }}</p>
-                <p><strong>Description:</strong> {{ project.description }}</p>
-                <p><strong>Coordinator:</strong> <span class="badge bg-info text-dark">{{ project.coordinator }}</span></p>
-                <p><strong>Students:</strong>
+                <p><strong>Nome do Projeto:</strong> {{ project.name }}</p>
+                <p><strong>Descrição:</strong> {{ project.description }}</p>
+                <p><strong>Coordenador:</strong> <span class="badge bg-info text-dark">{{ project.coordinator }}</span></p>
+                <p><strong>Estudantes:</strong>
                   <ng-container *ngFor="let s of project.assignedStudents || []">
                     <span class="badge me-1"
                           [ngClass]="{
@@ -133,9 +133,9 @@
                   </ng-container>
                 </p>
                 <p><strong>Upload:</strong> 7/17/2022 7:04 PM</p>
-                <p><strong>Comments:</strong> Type: Document - Any generic document</p>
-                <p><strong>Format:</strong> pdf</p>
-                <p><strong>File Size:</strong> 820 KB</p>
+                <p><strong>Comentários:</strong> Tipo: Documento - Documento Genérico</p>
+                <p><strong>Formato:</strong> pdf</p>
+                <p><strong>Tamanho do Arquivo:</strong> 820 KB</p>
               </div>
             </div>
           </td>
@@ -144,9 +144,9 @@
     </tbody>
   </table>
 
-  <div class="d-flex justify-content-between align-items-center mt-3">
+  <div class="d-flex justify-content-between align-items-center mt-4">
     <span class="small text-muted">
-      Showing {{ paginatedProjects.length }} of {{ filteredProjects.length }}
+      Mostrando {{ paginatedProjects.length }} de {{ filteredProjects.length }}
     </span>
     <div class="d-flex align-items-center gap-2">
       <button
@@ -171,7 +171,7 @@
 
   <div class="text-end mt-4" *ngIf="userType === 'teacher'">
     <button class="btn btn-primary" (click)="openModal()">
-      <i class="bi bi-plus-lg me-1"></i> Add New Project
+      <i class="bi bi-plus-lg me-1"></i> Adicionar Novo Projeto
     </button>
   </div>
 </div>
