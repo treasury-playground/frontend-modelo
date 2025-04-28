@@ -3,8 +3,10 @@
   <div class="modal-dialog modal-xl modal-dialog-centered">
     <div class="modal-content border-0 rounded-3 shadow-sm">
       <div class="modal-header border-bottom-0">
-        <h5 class="modal-title fw-bold">New Project</h5>
-        <button type="button" class="btn-close" (click)="close.emit()"></button>
+        <h5 class="modal-title fw-bold">
+          {{ isEditMode ? 'Editar Projeto' : 'Novo Projeto' }}
+        </h5>
+        <button type="button" class="btn-close" (click)="close.emit()" aria-label="Close"></button>
       </div>
 
       <form [formGroup]="form" (ngSubmit)="onSave()" class="needs-validation" novalidate>
@@ -13,6 +15,7 @@
             Upload new documents referring to the projects and fill in the detail fields.
           </p>
 
+          <!-- Área de Upload -->
           <div class="border rounded p-3 mb-4">
             <div class="d-flex justify-content-between align-items-center mb-2">
               <strong>Documents</strong>
@@ -54,6 +57,7 @@
             </ul>
           </div>
 
+          <!-- Formulário -->
           <div class="row mb-3 align-items-end">
             <div class="col-md-3">
               <label class="form-label small text-muted">Name of Project</label>
@@ -92,6 +96,7 @@
             </div>
           </div>
 
+          <!-- Estudantes Atribuídos -->
           <div *ngIf="assignedStudents.length > 0" class="mb-3 d-flex flex-wrap gap-2">
             <ng-container *ngFor="let student of assignedStudents">
               <span
@@ -108,6 +113,7 @@
             </ng-container>
           </div>
 
+          <!-- Descrição -->
           <div class="mb-3 mt-4">
             <label class="form-label small text-muted">Description</label>
             <textarea formControlName="description"
@@ -120,13 +126,13 @@
               Campo obrigatório.
             </div>
           </div>
+        </div>
 
-          <div class="modal-footer border-top-0">
-            <button type="button" class="btn btn-outline-secondary px-4" (click)="close.emit()">Cancel</button>
-            <button type="submit" class="btn btn-primary px-4">
-              {{ isEditMode ? 'Update' : 'Save' }}
-            </button>
-          </div>
+        <div class="modal-footer border-top-0">
+          <button type="button" class="btn btn-outline-secondary px-4" (click)="close.emit()">Cancel</button>
+          <button type="submit" class="btn btn-primary px-4">
+            {{ isEditMode ? 'Atualizar' : 'Salvar' }}
+          </button>
         </div>
       </form>
     </div>
