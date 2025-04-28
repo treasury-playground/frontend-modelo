@@ -27,21 +27,18 @@
   ],
   "projects": [
     {
-      "id": "1",
       "name": "Project 1",
+      "coordinator": "Adalberto",
       "description": "Sistema de monitoramento de água",
-      "date": "2024-03-20",
-      "coordinatorId": 1,
-      "students": [
+      "assignedStudents": [
         {
-          "id": 2,
-          "role": "Júnior"
-        },
-        {
-          "id": 3,
-          "role": "Sênior"
+          "name": "Eloquinn Teixeira",
+          "role": "Master"
         }
-      ]
+      ],
+      "files": [],
+      "date": "4/27/2025",
+      "id": "1"
     },
     {
       "id": "2",

@@ -1,62 +1,61 @@
-.table-hover tbody tr:hover {
-  background-color: #f8f9fa;
-}
-
-
 th {
-  cursor: pointer;
-  user-select: none;
-}
-
-th .bi {
-  font-size: 0.8rem;
-  margin-left: 5px;
-  transition: transform 0.2s ease;
-}
-
-th .bi.bi-arrow-up {
-  transform: rotate(0deg);
-}
-
-th .bi.bi-arrow-down {
-  transform: rotate(180deg);
-}
-
-th .bi.bi-arrow-down-up {
-  opacity: 0.5;
-}
-
-th.text-end button {
   white-space: nowrap;
-}
-
-td.text-center,
-th.text-center {
   vertical-align: middle;
 }
 
-td[colspan="8"] {
-  background-color: #f1f3f5;
+td {
+  vertical-align: middle;
+}
+
+th i {
+  font-size: 0.7rem;
+  margin-left: 6px;
+  color: #adb5bd;
+}
+
+th.active-sort i {
+  color: #212529; 
+}
+
+
+button.btn {
+  border-radius: 6px; 
+  font-weight: 500; 
+  padding: 0.45rem 0.9rem; 
+  font-size: 0.9rem; 
+}
+
+button.btn-outline-secondary,
+button.btn-outline-danger {
+  border-width: 1.5px; 
+}
+
+button.btn-primary {
+  background-color: #0d6efd; 
+  border-color: #0d6efd;
+}
+
+button.btn-primary:hover {
+  background-color: #0b5ed7; 
+  border-color: #0a58ca;
 }
 
 @media (max-width: 768px) {
-  .table-responsive {
-    overflow-x: auto;
+  .table {
+    font-size: 0.85rem;
   }
 
   th, td {
-    white-space: nowrap;
-  }
-
-  .table {
-    width: 100%;
+    padding: 0.5rem 0.5rem;
   }
 }
 
-.btn-sm {
-  padding: 0.25rem 0.5rem;
+
+.table-hover tbody tr:hover {
+  background-color: #f5f7fa; 
+  transition: background-color 0.2s ease-in-out;
 }
 
-.badge {
-  font-size: 0.75rem;
+.table-hover tbody tr:hover td {
+  cursor: pointer;
 }
