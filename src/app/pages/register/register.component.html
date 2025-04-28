@@ -1,104 +1,104 @@
 <div class="register-container d-flex">
-    <div class="left-panel d-flex flex-column align-items-center justify-content-center px-4">
-      
-      <i class="bi bi-cloud-fill fs-1 text-primary mb-3"></i>
-  
-      <h4 class="fw-bold text-primary text-center mb-4">TREASURY<br />CONNECT</h4>
-  
-      <form #registerForm="ngForm" (ngSubmit)="onSubmit(registerForm)">
+  <div class="left-panel d-flex flex-column align-items-center justify-content-center px-4">
+    
+    <i class="bi bi-cloud-fill fs-1 text-primary mb-3"></i>
+
+    <h4 class="fw-bold text-primary text-center mb-4">TREASURY<br />CONNECT</h4>
+
+    <form #registerForm="ngForm" (ngSubmit)="onSubmit(registerForm)">
+      <input
+        type="text"
+        class="form-control mb-2"
+        placeholder="Full Name"
+        name="name"
+        required
+        [(ngModel)]="formData.name"
+        #name="ngModel"
+      />
+      <input
+        type="email"
+        class="form-control mb-2"
+        placeholder="Email"
+        name="email"
+        required
+        [(ngModel)]="formData.email"
+        #email="ngModel"
+      />
+      <input
+        type="password"
+        class="form-control mb-2"
+        placeholder="Password"
+        name="password"
+        required
+        [(ngModel)]="formData.password"
+        #password="ngModel"
+      />
+      <input
+        type="password"
+        class="form-control mb-2"
+        placeholder="Confirm Password"
+        name="confirmPassword"
+        required
+        [(ngModel)]="formData.confirmPassword"
+        #confirmPassword="ngModel"
+      />
+
+      <ng-container *ngIf="userType === 'student'">
         <input
+          class="form-control mb-2"
           type="text"
+          name="educationInstitution"
+          placeholder="Education Institution"
+          [(ngModel)]="formData.educationInstitution"
+        />
+      </ng-container>
+
+      <ng-container *ngIf="userType === 'teacher'">
+        <input
           class="form-control mb-2"
-          placeholder="Full Name"
-          name="name"
-          required
-          [(ngModel)]="formData.name"
-          #name="ngModel"
+          type="text"
+          name="description"
+          placeholder="Description Area"
+          [(ngModel)]="formData.description"
         />
         <input
-          type="email"
           class="form-control mb-2"
-          placeholder="Email"
-          name="email"
-          required
-          [(ngModel)]="formData.email"
-          #email="ngModel"
+          type="text"
+          name="formation"
+          placeholder="Formation Area"
+          [(ngModel)]="formData.formation"
         />
-        <input
-          type="password"
-          class="form-control mb-2"
-          placeholder="Password"
-          name="password"
-          required
-          [(ngModel)]="formData.password"
-          #password="ngModel"
-        />
-        <input
-          type="password"
-          class="form-control mb-2"
-          placeholder="Confirm Password"
-          name="confirmPassword"
-          required
-          [(ngModel)]="formData.confirmPassword"
-          #confirmPassword="ngModel"
-        />
-  
-        <ng-container *ngIf="userType === 'student'">
+      </ng-container>
+
+      <div class="d-flex justify-content-center gap-3 my-3">
+        <div class="form-check">
           <input
-            class="form-control mb-2"
-            type="text"
-            name="educationInstitution"
-            placeholder="Education Institution"
-            [(ngModel)]="formData.educationInstitution"
+            class="form-check-input"
+            type="radio"
+            id="student"
+            value="student"
+            name="userType"
+            [(ngModel)]="userType"
           />
-        </ng-container>
-  
-        <ng-container *ngIf="userType === 'teacher'">
-          <input
-            class="form-control mb-2"
-            type="text"
-            name="description"
-            placeholder="Description Area"
-            [(ngModel)]="formData.description"
-          />
-          <input
-            class="form-control mb-2"
-            type="text"
-            name="formation"
-            placeholder="Formation Area"
-            [(ngModel)]="formData.formation"
-          />
-        </ng-container>
-  
-        <div class="d-flex justify-content-center gap-3 my-3">
-          <div class="form-check">
-            <input
-              class="form-check-input"
-              type="radio"
-              id="student"
-              value="student"
-              name="userType"
-              [(ngModel)]="userType"
-            />
-            <label class="form-check-label" for="student">Student</label>
-          </div>
-          <div class="form-check">
-            <input
-              class="form-check-input"
-              type="radio"
-              id="teacher"
-              value="teacher"
-              name="userType"
-              [(ngModel)]="userType"
-            />
-            <label class="form-check-label" for="teacher">Teacher</label>
-          </div>
+          <label class="form-check-label" for="student">Student</label>
         </div>
-  
-        <button type="submit" class="btn btn-primary w-100 rounded-2">Create Account</button>
-      </form>
-    </div>
-  
-    <div class="right-panel d-none d-md-block"></div>
+        <div class="form-check">
+          <input
+            class="form-check-input"
+            type="radio"
+            id="teacher"
+            value="teacher"
+            name="userType"
+            [(ngModel)]="userType"
+          />
+          <label class="form-check-label" for="teacher">Teacher</label>
+        </div>
+      </div>
+
+      <button type="submit" class="btn btn-primary w-100 rounded-2">Create Account</button>
+    </form>
   </div>
-  
+
+  <div class="right-panel"></div>
+
+</div>

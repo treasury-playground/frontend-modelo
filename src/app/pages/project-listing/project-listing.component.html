@@ -14,51 +14,26 @@
   </div>
 
   <div class="mb-3 text-muted small">
-    Projetos ({{ allProjects.length < 10 ? '0' + allProjects.length : allProjects.length }})
+    Projetos ({{ filteredProjects.length < 10 ? '0' + filteredProjects.length : filteredProjects.length }})
   </div>
 
   <table class="table table-hover align-middle">
     <thead class="table-light">
       <tr>
         <th></th>
-        <th role="button" (click)="sortBy('name')">
-          Nome do Projeto <i class="bi" [ngClass]="getSortIcon('name')"></i>
-        </th>
-        <th role="button" (click)="sortBy('description')">
-          Descrição <i class="bi" [ngClass]="getSortIcon('description')"></i>
-        </th>
-        <th role="button" (click)="sortBy('date')">
-          Data <i class="bi" [ngClass]="getSortIcon('date')"></i>
-        </th>
-        <th role="button" (click)="sortBy('coordinator')">
-          Coordenador <i class="bi" [ngClass]="getSortIcon('coordinator')"></i>
-        </th>
+        <th role="button" (click)="sortBy('name')">Nome do Projeto <i class="bi" [ngClass]="getSortIcon('name')"></i></th>
+        <th role="button" (click)="sortBy('description')">Descrição <i class="bi" [ngClass]="getSortIcon('description')"></i></th>
+        <th role="button" (click)="sortBy('date')">Data <i class="bi" [ngClass]="getSortIcon('date')"></i></th>
+        <th role="button" (click)="sortBy('coordinator')">Coordenador <i class="bi" [ngClass]="getSortIcon('coordinator')"></i></th>
         <th>Estudantes</th>
         <th class="text-end">
           <div class="d-flex justify-content-end align-items-center gap-2">
-            <button
-              class="btn btn-outline-secondary btn-sm rounded-3"
-              [disabled]="!hasSelectedProjects()"
-              (click)="downloadSelectedProjects()"
-            >
-              Download
-            </button>
-            <button
-              *ngIf="userType === 'teacher'"
-              class="btn btn-outline-danger btn-sm rounded-3"
-              [disabled]="!hasSelectedProjects()"
-              (click)="deleteSelectedProjects()"
-            >
-              Excluir
-            </button>
+            <button class="btn btn-outline-secondary btn-sm rounded-3" [disabled]="!hasSelectedProjects()" (click)="downloadSelectedProjects()">Download</button>
+            <button *ngIf="userType === 'teacher'" class="btn btn-outline-danger btn-sm rounded-3" [disabled]="!hasSelectedProjects()" (click)="deleteSelectedProjects()">Excluir</button>
           </div>
         </th>
         <th class="text-center">
-          <input
-            type="checkbox"
-            [(ngModel)]="selectAll"
-            (change)="toggleSelectAll()"
-          />
+          <input type="checkbox" [(ngModel)]="selectAll" (change)="toggleSelectAll()" />
         </th>
       </tr>
     </thead>
@@ -67,22 +42,12 @@
       <ng-container *ngFor="let project of paginatedProjects; let i = index">
         <tr class="table-row-hover">
           <td>
-            <i
-              class="bi"
-              [ngClass]="{
-                'bi-chevron-down': expandedIndex === i,
-                'bi-chevron-right': expandedIndex !== i
-              }"
-              (click)="toggleDetails(i)"
-              role="button"
-            ></i>
+            <i class="bi" [ngClass]="{ 'bi-chevron-down': expandedIndex === i, 'bi-chevron-right': expandedIndex !== i }" (click)="toggleDetails(i)" role="button"></i>
           </td>
           <td>{{ project.name }}</td>
           <td class="text-muted small">{{ project.description }}</td>
           <td>{{ project.date }}</td>
-          <td>
-            <span class="badge bg-info text-dark">{{ project.coordinator }}</span>
-          </td>
+          <td><span class="badge bg-info text-dark">{{ project.coordinator }}</span></td>
           <td>
             <span *ngFor="let student of project.assignedStudents || []" class="badge me-1"
                   [ngClass]="{
@@ -96,12 +61,7 @@
             </span>
           </td>
           <td class="text-end">
-            <i
-              *ngIf="userType === 'teacher'"
-              class="bi bi-pencil text-primary"
-              role="button"
-              (click)="onEditProject(project)"
-            ></i>
+            <i *ngIf="userType === 'teacher'" class="bi bi-pencil text-primary" role="button" (click)="onEditProject(project)"></i>
           </td>
           <td class="text-center">
             <input type="checkbox" [(ngModel)]="project.selected" />
@@ -142,20 +102,12 @@
 
   <div class="d-flex justify-content-between align-items-center mt-4">
     <span class="small text-muted">
-      Mostrando {{ paginatedProjects.length }} de {{ allProjects.length }}
+      Mostrando {{ paginatedProjects.length }} de {{ filteredProjects.length }}
     </span>
     <div class="d-flex align-items-center gap-2">
-      <button
-        class="btn btn-sm btn-outline-primary rounded-3"
-        [disabled]="currentPage === 1"
-        (click)="changePage(currentPage - 1)"
-      >‹</button>
+      <button class="btn btn-sm btn-outline-primary rounded-3" [disabled]="currentPage === 1" (click)="changePage(currentPage - 1)">‹</button>
       <span>{{ currentPage }}</span>
-      <button
-        class="btn btn-sm btn-outline-primary rounded-3"
-        [disabled]="currentPage >= totalPages()"
-        (click)="changePage(currentPage + 1)"
-      >›</button>
+      <button class="btn btn-sm btn-outline-primary rounded-3" [disabled]="currentPage >= totalPages()" (click)="changePage(currentPage + 1)">›</button>
 
       <select class="form-select form-select-sm rounded-3 ms-2" style="width: 70px;" [(ngModel)]="pageSize">
         <option [ngValue]="2">2</option>
@@ -172,10 +124,4 @@
   </div>
 </div>
 
-<app-project-modal
-  *ngIf="userType === 'teacher' && showModal"
-  [isEditMode]="isEditMode"
-  [projectToEdit]="projectBeingEdited"
-  (close)="closeModal()"
-  (save)="handleProjectUpdate($event)">
-</app-project-modal>
+<app-project-modal *ngIf="userType === 'teacher' && showModal" [isEditMode]="isEditMode" [projectToEdit]="projectBeingEdited" (close)="closeModal()" (save)="handleProjectUpdate($event)"></app-project-modal>

@@ -1,34 +1,36 @@
 :host {
-    display: flex;
-    height: 100vh;
-    overflow: hidden;
-  }
-  
-  .register-container {
-    display: flex;
-    flex: 1;
-  }
-  
-  .left-panel {
-    width: 50%;
-    background-color: #f5f6fa;
-    padding: 3rem;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-  }
-  
-  .form-wrapper {
-    width: 100%;
-    max-width: 300px;
-    margin-top: 1rem;
-  }
-  
-  .right-panel {
-    width: 50%;
-    
-    background-size: cover;
-    background-position: center;
-  }
-  
+  display: flex;
+  height: 100vh;
+  overflow: hidden;
+}
+
+.register-container {
+  display: flex;
+  flex: 1;
+}
+
+.left-panel {
+  width: 50%;
+  max-width: 500px;
+  background-color: #ffffff;
+  padding: 3rem;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  z-index: 2;
+}
+
+.form-wrapper {
+  width: 100%;
+  max-width: 300px;
+  margin-top: 1rem;
+}
+
+.right-panel {
+  flex: 1;
+  background: url('../../../assets/images/wallpaper-light.png') no-repeat center center;
+  background-size: cover;
+  background-position: center;
+}
+
