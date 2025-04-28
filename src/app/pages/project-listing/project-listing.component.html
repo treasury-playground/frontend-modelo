@@ -14,7 +14,7 @@
   </div>
 
   <div class="mb-3 text-muted small">
-    Projetos ({{ filteredProjects.length < 10 ? '0' + filteredProjects.length : filteredProjects.length }})
+    Projetos ({{ filteredProjectsList.length < 10 ? '0' + filteredProjectsList.length : filteredProjectsList.length }})
   </div>
 
   <table class="table table-hover align-middle">
@@ -102,7 +102,7 @@
 
   <div class="d-flex justify-content-between align-items-center mt-4">
     <span class="small text-muted">
-      Mostrando {{ paginatedProjects.length }} de {{ filteredProjects.length }}
+      Mostrando {{ paginatedProjects.length }} de {{ filteredProjectsList.length }}
     </span>
     <div class="d-flex align-items-center gap-2">
       <button class="btn btn-sm btn-outline-primary rounded-3" [disabled]="currentPage === 1" (click)="changePage(currentPage - 1)">‹</button>
@@ -124,4 +124,9 @@
   </div>
 </div>
 
-<app-project-modal *ngIf="userType === 'teacher' && showModal" [isEditMode]="isEditMode" [projectToEdit]="projectBeingEdited" (close)="closeModal()" (save)="handleProjectUpdate($event)"></app-project-modal>
+<app-project-modal *ngIf="userType === 'teacher' && showModal"
+  [isEditMode]="isEditMode"
+  [projectToEdit]="projectBeingEdited"
+  (close)="closeModal()"
+  (save)="handleProjectUpdate($event)">
+</app-project-modal>
