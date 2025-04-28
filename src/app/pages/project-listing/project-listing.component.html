@@ -7,14 +7,14 @@
     <input
       type="text"
       [formControl]="searchControl"
-      class="form-control w-100 ps-3 pe-5"
+      class="form-control rounded-3 w-100 ps-3 pe-5"
       placeholder="Pesquisar por Projeto"
     />
     <i class="bi bi-search position-absolute top-50 end-0 translate-middle-y me-3 text-muted" style="pointer-events: none;"></i>
   </div>
 
   <div class="mb-3 text-muted small">
-    Projetos ({{ filteredProjects.length < 10 ? '0' + filteredProjects.length : filteredProjects.length }})
+    Projetos ({{ allProjects.length < 10 ? '0' + allProjects.length : allProjects.length }})
   </div>
 
   <table class="table table-hover align-middle">
@@ -37,7 +37,7 @@
         <th class="text-end">
           <div class="d-flex justify-content-end align-items-center gap-2">
             <button
-              class="btn btn-outline-secondary btn-sm"
+              class="btn btn-outline-secondary btn-sm rounded-3"
               [disabled]="!hasSelectedProjects()"
               (click)="downloadSelectedProjects()"
             >
@@ -45,7 +45,7 @@
             </button>
             <button
               *ngIf="userType === 'teacher'"
-              class="btn btn-outline-danger btn-sm"
+              class="btn btn-outline-danger btn-sm rounded-3"
               [disabled]="!hasSelectedProjects()"
               (click)="deleteSelectedProjects()"
             >
@@ -65,7 +65,7 @@
 
     <tbody>
       <ng-container *ngFor="let project of paginatedProjects; let i = index">
-        <tr>
+        <tr class="table-row-hover">
           <td>
             <i
               class="bi"
@@ -110,9 +110,9 @@
 
         <tr *ngIf="expandedIndex === i">
           <td colspan="8">
-            <div class="d-flex gap-4 p-3 border rounded">
+            <div class="d-flex gap-4 p-3 border rounded-3">
               <div class="flex-fill">
-                <img src="" class="img-fluid rounded shadow-sm" alt="Preview" />
+                <img src="" class="img-fluid rounded-3 shadow-sm" alt="Preview" />
               </div>
               <div style="min-width: 300px;">
                 <p><strong>Nome do Projeto:</strong> {{ project.name }}</p>
@@ -132,10 +132,6 @@
                     </span>
                   </ng-container>
                 </p>
-                <p><strong>Upload:</strong> 7/17/2022 7:04 PM</p>
-                <p><strong>Comentários:</strong> Tipo: Documento - Documento Genérico</p>
-                <p><strong>Formato:</strong> pdf</p>
-                <p><strong>Tamanho do Arquivo:</strong> 820 KB</p>
               </div>
             </div>
           </td>
@@ -146,22 +142,22 @@
 
   <div class="d-flex justify-content-between align-items-center mt-4">
     <span class="small text-muted">
-      Mostrando {{ paginatedProjects.length }} de {{ filteredProjects.length }}
+      Mostrando {{ paginatedProjects.length }} de {{ allProjects.length }}
     </span>
     <div class="d-flex align-items-center gap-2">
       <button
-        class="btn btn-sm btn-outline-primary"
+        class="btn btn-sm btn-outline-primary rounded-3"
         [disabled]="currentPage === 1"
         (click)="changePage(currentPage - 1)"
       >‹</button>
       <span>{{ currentPage }}</span>
       <button
-        class="btn btn-sm btn-outline-primary"
+        class="btn btn-sm btn-outline-primary rounded-3"
         [disabled]="currentPage >= totalPages()"
         (click)="changePage(currentPage + 1)"
       >›</button>
 
-      <select class="form-select form-select-sm ms-2" style="width: 70px;" [(ngModel)]="pageSize">
+      <select class="form-select form-select-sm rounded-3 ms-2" style="width: 70px;" [(ngModel)]="pageSize">
         <option [ngValue]="2">2</option>
         <option [ngValue]="4">4</option>
         <option [ngValue]="10">10</option>
@@ -170,7 +166,7 @@
   </div>
 
   <div class="text-end mt-4" *ngIf="userType === 'teacher'">
-    <button class="btn btn-primary" (click)="openModal()">
+    <button class="btn btn-primary rounded-3" (click)="openModal()">
       <i class="bi bi-plus-lg me-1"></i> Adicionar Novo Projeto
     </button>
   </div>

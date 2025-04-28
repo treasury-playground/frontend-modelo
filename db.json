@@ -28,12 +28,12 @@
   "projects": [
     {
       "name": "Project 1",
-      "coordinator": "Adalberto",
+      "coordinator": " ",
       "description": "Sistema de monitoramento de água",
       "assignedStudents": [
         {
-          "name": "Eloquinn Teixeira",
-          "role": "Master"
+          "name": "Davi Gomes",
+          "role": "Trainee"
         }
       ],
       "files": [],

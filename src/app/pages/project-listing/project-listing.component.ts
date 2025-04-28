@@ -50,12 +50,15 @@ export class ProjectListingComponent implements OnInit {
           assignedStudents: proj.assignedStudents || [],
           selected: false
         }));
+  
+        this.currentPage = 1;
       },
       error: (error) => {
         console.error('Erro ao buscar projetos:', error);
       }
     });
   }
+  
 
   get filteredProjects() {
     if (!this.allProjects || this.allProjects.length === 0) {
