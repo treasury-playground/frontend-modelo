@@ -33,8 +33,14 @@
       "date": "2024-03-20",
       "coordinatorId": 1,
       "students": [
-        { "id": 2, "role": "Júnior" },
-        { "id": 3, "role": "Sênior" }
+        {
+          "id": 2,
+          "role": "Júnior"
+        },
+        {
+          "id": 3,
+          "role": "Sênior"
+        }
       ]
     },
     {
@@ -44,7 +50,10 @@
       "date": "2024-03-22",
       "coordinatorId": 1,
       "students": [
-        { "id": 3, "role": "Estágio" }
+        {
+          "id": 3,
+          "role": "Estágio"
+        }
       ]
     },
     {
@@ -54,7 +63,10 @@
       "date": "2024-03-25",
       "coordinatorId": 1,
       "students": [
-        { "id": 2, "role": "Trainee" }
+        {
+          "id": 2,
+          "role": "Trainee"
+        }
       ]
     },
     {
@@ -72,7 +84,10 @@
       "date": "2024-04-01",
       "coordinatorId": 1,
       "students": [
-        { "id": 2, "role": "Master" }
+        {
+          "id": 2,
+          "role": "Master"
+        }
       ]
     }
   ]

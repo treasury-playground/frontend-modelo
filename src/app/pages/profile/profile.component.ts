@@ -1,26 +1,47 @@
-import { Component } from '@angular/core';
-import { CommonModule } from '@angular/common'; 
+import { Component, OnInit } from '@angular/core';
+import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
+import { ApiService } from '../../services/api.service'; 
 
 @Component({
   selector: 'app-profile',
-  templateUrl: './profile.component.html',
   standalone: true,
-  imports: [CommonModule, FormsModule] 
+  templateUrl: './profile.component.html',
+  styleUrls: ['./profile.component.css'],
+  imports: [CommonModule, FormsModule]
 })
-export class ProfileComponent {
+export class ProfileComponent implements OnInit {
   isEditing = false;
 
   user = {
-    name: 'Adalberto Farias',
-    email: 'adalbertofarias@email.com',
+    name: '',
+    email: '',
   };
 
-  projects = [
-    { name: 'Project 1', description: 'Brief Description' },
-    { name: 'Project 3', description: 'Brief Description' },
-    { name: 'Project 4', description: 'Brief Description' },
-  ];
+  projects: { name: string, description: string }[] = [];
+
+  constructor(private apiService: ApiService) {}
+
+  ngOnInit() {
+    this.user.name = localStorage.getItem('userName') || '';
+    this.user.email = localStorage.getItem('userEmail') || '';
+
+    this.loadProjects();
+  }
+
+  loadProjects() {
+    this.apiService.getProjetos().subscribe({
+      next: (data: any[]) => {
+        this.projects = data.map(p => ({
+          name: p.name,
+          description: p.description
+        }));
+      },
+      error: (error) => {
+        console.error('Erro ao carregar projetos:', error);
+      }
+    });
+  }
 
   toggleEdit() {
     this.isEditing = !this.isEditing;

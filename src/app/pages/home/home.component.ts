@@ -67,6 +67,7 @@ export class HomeComponent {
           if (index !== -1) {
             this.projects[index] = updatedProject;
           }
+          this.updateUserProjects(); // Atualiza os projetos do usuário
           this.closeModal();
         },
         error: (error) => {
@@ -77,6 +78,7 @@ export class HomeComponent {
       this.apiService.addProjeto(project).subscribe({
         next: (savedProject) => {
           this.projects = [savedProject, ...this.projects];
+          this.updateUserProjects(); // Atualiza os projetos do usuário
           this.closeModal();
         },
         error: (error) => {
@@ -85,6 +87,10 @@ export class HomeComponent {
       });
     }
   }
+  updateUserProjects() {
+    localStorage.setItem('userProjects', JSON.stringify(this.projects));
+  }
+    
   
 
   get filteredProjects() {

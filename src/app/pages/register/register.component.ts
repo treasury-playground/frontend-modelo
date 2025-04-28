@@ -38,12 +38,12 @@ export class RegisterComponent {
     }
   
     localStorage.setItem('userType', this.userType);
-    localStorage.setItem('userName', this.formData.name); 
-
+    localStorage.setItem('userName', this.formData.name);
+    localStorage.setItem('userEmail', this.formData.email); // <-- ADICIONA ISSO AQUI
   
     console.log('Usuário registrado com sucesso:', this.formData);
     this.router.navigate(['/home']);
   }
-   
+  
   
 }
