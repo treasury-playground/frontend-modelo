@@ -29,9 +29,12 @@
   </div>
 
   <table
+    #table
     mat-table
     [dataSource]="dataSource"
     matSort
+    multiTemplateDataRows
+    [trackBy]="trackById"
     class="custom-table"
     [class.loading]="!users || users.length === 0"
   >
@@ -42,7 +45,9 @@
         <i
           class="pi toggle-arrow"
           [ngClass]="
-            expandedProject === project ? 'pi-chevron-down' : 'pi-chevron-right'
+            expandedProjectId === project.id
+              ? 'pi-chevron-down'
+              : 'pi-chevron-right'
           "
           (click)="toggleDetails(project)"
         ></i>
@@ -51,19 +56,19 @@
 
     <!-- Nome -->
     <ng-container matColumnDef="name">
-      <th mat-header-cell *matHeaderCellDef mat-sort-header>Nome</th>
+      <th mat-header-cell *matHeaderCellDef mat-sort-header>Name</th>
       <td mat-cell *matCellDef="let project">{{ project.name }}</td>
     </ng-container>
 
     <!-- Descrição -->
     <ng-container matColumnDef="description">
-      <th mat-header-cell *matHeaderCellDef mat-sort-header>Descrição</th>
+      <th mat-header-cell *matHeaderCellDef mat-sort-header>Description</th>
       <td mat-cell *matCellDef="let project">{{ project.description }}</td>
     </ng-container>
 
     <!-- Data -->
     <ng-container matColumnDef="date">
-      <th mat-header-cell *matHeaderCellDef mat-sort-header>Data</th>
+      <th mat-header-cell *matHeaderCellDef mat-sort-header>Date</th>
       <td mat-cell *matCellDef="let project">
         {{ project.date | date : "MM/dd/yyyy" }}
       </td>
@@ -71,7 +76,7 @@
 
     <!-- Coluna Coordenador -->
     <ng-container matColumnDef="coordinator">
-      <th mat-header-cell *matHeaderCellDef mat-sort-header>Coordenador</th>
+      <th mat-header-cell *matHeaderCellDef mat-sort-header>Coordinator</th>
       <td mat-cell *matCellDef="let project">
         <span class="participant-pill coordinator-pill">
           {{ getUserName(project.coordinatorId) }}
@@ -81,19 +86,23 @@
 
     <!-- Coluna Estudantes -->
     <ng-container matColumnDef="students">
-      <th mat-header-cell *matHeaderCellDef mat-sort-header>Estudantes</th>
+      <th mat-header-cell *matHeaderCellDef mat-sort-header>Students</th>
       <td mat-cell *matCellDef="let project">
         <ng-container *ngFor="let s of project.students; let i = index">
-          <span *ngIf="i < 2" class="participant-pill student-pill">
+          <span
+            *ngIf="i < 2"
+            class="role-pill"
+            [ngClass]="s.role.toLowerCase()"
+            title="{{ s.role }}"
+          >
             {{ getUserName(s.id) }}
           </span>
         </ng-container>
-        <span
-          *ngIf="project.students.length > 2"
-          class="participant-pill student-pill extra"
-        >
-          +{{ project.students.length - 2 }}
-        </span>
+        <ng-container *ngIf="project.students.length > 2">
+          <span class="role-pill extra">
+            +{{ project.students.length - 2 }}
+          </span>
+        </ng-container>
       </td>
     </ng-container>
 
@@ -101,7 +110,10 @@
     <ng-container matColumnDef="edit">
       <th mat-header-cell *matHeaderCellDef></th>
       <td mat-cell *matCellDef="let project">
-        <i class="pi pi-pencil edit-icon" (click)="openEditProjectModal(project)"></i>
+        <i
+          class="pi pi-pencil edit-icon"
+          (click)="openEditProjectModal(project)"
+        ></i>
       </td>
     </ng-container>
 
@@ -118,9 +130,76 @@
       </td>
     </ng-container>
 
+    <!-- Detail Row -->
+    <ng-container matColumnDef="detail">
+      <td
+        mat-cell
+        *matCellDef="let project"
+        [attr.colspan]="displayedColumns.length"
+      >
+        <div class="detail-container">
+          <!-- PDF Viewer (mantém igual) -->
+          <div class="pdf-viewer" *ngIf="project.pdfBase64s?.length">
+            <iframe
+              *ngFor="let b64 of project.pdfBase64s"
+              [src]="sanitizePdf(b64)"
+              frameborder="0"
+            ></iframe>
+          </div>
+
+          <!-- Project Info -->
+          <div class="project-info">
+            <h3>{{ project.name }}</h3>
+            <p><strong>Description: </strong>{{ project.description }}</p>
+
+            <!-- Coordenador com pill -->
+            <p>
+              <strong>Coordinator:</strong>
+              <span class="role-pill coordinator-pill">
+                {{ getUserName(project.coordinatorId) }}
+              </span>
+            </p>
+
+            <!-- Estudantes com pills de role -->
+            <p>
+              <strong>Students:</strong>
+              <ng-container *ngFor="let s of project.students">
+                <span
+                  class="role-pill"
+                  [ngClass]="s.role.toLowerCase()"
+                  title="{{ s.role }}"
+                >
+                  {{ getUserName(s.id) }}
+                </span>
+              </ng-container>
+            </p>
+
+            <p>
+              <strong>Upload:</strong>
+              {{ project.uploadDate | date : "MM/dd/yyyy" }}
+            </p>
+            <p><strong>Type:</strong> {{ project.type }}</p>
+            <p><strong>Format:</strong> {{ project.format }}</p>
+            <p><strong>Size:</strong> {{ project.size }}</p>
+          </div>
+        </div>
+      </td>
+    </ng-container>
+
     <!-- Header e Rows -->
     <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
-    <tr mat-row *matRowDef="let row; columns: displayedColumns"></tr>
+    <tr
+      mat-row
+      *matRowDef="let project; columns: displayedColumns"
+      (click)="toggleDetails(project)"
+      [class.expanded]="isExpanded(project)"
+    ></tr>
+
+    <tr
+      mat-row
+      *matRowDef="let project; columns: ['detail']; when: isDetailRow"
+      class="detail-row"
+    ></tr>
   </table>
   <div class="pagination-container">
     <div class="page-info" *ngIf="paginator">

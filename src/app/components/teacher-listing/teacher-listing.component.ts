@@ -1,18 +1,19 @@
-import { Component, OnInit, ViewChild, AfterViewInit, ChangeDetectorRef } from '@angular/core';
+import { ChangeDetectorRef, Component, OnInit, ViewChild } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { MatTableModule, MatTableDataSource } from '@angular/material/table';
+import { MatTableModule, MatTableDataSource, MatTable } from '@angular/material/table';
 import { MatSortModule } from '@angular/material/sort';
 import { MatCheckboxModule } from '@angular/material/checkbox';
 import { MatSort } from '@angular/material/sort';
 import { SelectionModel } from '@angular/cdk/collections';
 import { ApiService } from '../../services/api.service';
-import { forkJoin } from 'rxjs';
 import { MatPaginator, MatPaginatorModule } from '@angular/material/paginator';
 import { FormsModule } from '@angular/forms';
 import { MatDialog, MatDialogModule } from '@angular/material/dialog';
 import { AddProjectModalComponent } from '../add-project-modal/add-project-modal.component';
 import { Project, User } from '../../models/models';
 import { EditProjectModalComponent } from '../edit-project-modal/edit-project-modal.component';
+import { ProjectsService } from '../../services/projects.service';
+import { DomSanitizer, SafeResourceUrl } from '@angular/platform-browser';
 
 @Component({
   selector: 'app-teacher-listing',
@@ -22,71 +23,74 @@ import { EditProjectModalComponent } from '../edit-project-modal/edit-project-mo
   styleUrls: ['./teacher-listing.component.css']
 })
 
-export class TeacherListingComponent implements OnInit, AfterViewInit {
+export class TeacherListingComponent implements OnInit {
   displayedColumns: string[] = ['toggle', 'name', 'description', 'date', 'coordinator', 'students', 'edit', 'select'];
   dataSource: MatTableDataSource<Project> = new MatTableDataSource();
-
   projects: Project[] = [];
   users: User[] = [];
 
   selectedProjects = new SelectionModel<Project>(true, []);
 
-  @ViewChild(MatSort) sort!: MatSort;
-  @ViewChild(MatPaginator) paginator!: MatPaginator;
+  @ViewChild('table') table!: MatTable<Project>;
+
+  private _sort?: MatSort;
+  private _paginator?: MatPaginator;
+
+  @ViewChild(MatSort)
+  set sort(sort: MatSort) {
+    this._sort = sort;
+    this.setDataSourceAttributes();
+  }
+
+  @ViewChild(MatPaginator)
+  set paginator(paginator: MatPaginator) {
+    this._paginator = paginator;
+    this.setDataSourceAttributes();
+  }
 
   constructor(
     private apiService: ApiService,
-    private cdRef: ChangeDetectorRef,
-    private dialog: MatDialog
+    private projectsService: ProjectsService,
+    private dialog: MatDialog,
+    private sanitizer: DomSanitizer,
+    private cd: ChangeDetectorRef
   ) { }
 
-  openAddProjectModal(): void {
-    const dialogRef = this.dialog.open(AddProjectModalComponent, {
-      height: '90vh',
-      width: '80vw', // Use viewport width
-      maxWidth: '1200px', // Largura máxima
-      autoFocus: false,
-      data: {
-        title: 'New Project',
-        projectName: '',
-        coordinator: '',
-        students: [],
-        description: ''
-      }
-    });
-
-    dialogRef.afterClosed().subscribe((created: Project) => {
-      if (created?.id) {
-        this.projects.push(created);
-        this.dataSource.data = [...this.projects];
-        this.cdRef.detectChanges();
-      }
-    });
-  }
-
   ngOnInit() {
-    forkJoin({
-      projetos: this.apiService.getProjetos(),
-      usuarios: this.apiService.getUsuarios()
-    }).subscribe(({ projetos, usuarios }) => {
-      this.projects = projetos;
-      this.users = usuarios;
-      this.dataSource.data = this.projects;
+    this.apiService.getUsuarios().subscribe(u => this.users = u);
 
-      // Força a atualização da view
-      this.cdRef.detectChanges();
+    this.dataSource.sortingDataAccessor = (item: Project, property: string) => {
+      switch (property) {
+        case 'coordinator':
+          return this.getUserName(item.coordinatorId).toLowerCase();
 
-      // Atribui o paginator e sort após os dados estarem prontos
-      this.dataSource.paginator = this.paginator;
-      this.dataSource.sort = this.sort;
+        case 'students':
+          return item.students
+            .map(s => this.getUserName(s.id))
+            .join(', ')
+            .toLowerCase();
+
+        default:
+          return (item as any)[property];
+      }
+    };
+
+    this.projectsService.projects$.subscribe(projs => {
+      this.dataSource.data = projs;
+      this.setDataSourceAttributes();
     });
   }
 
-  ngAfterViewInit() {
+  setDataSourceAttributes() {
+    if (this._sort && this._paginator) {
+      this.dataSource.sort = this._sort;
+      this.dataSource.paginator = this._paginator;
+      this._sort.disableClear = true;
+    }
   }
 
-  getUserName(id: number | string): string {
-    const user = this.users.find(u => Number(u.id) === Number(id));
+  getUserName(id: string): string {
+    const user = this.users.find(u => u.id === id);
     return user ? user.fullName : ' ';
   }
 
@@ -95,30 +99,34 @@ export class TeacherListingComponent implements OnInit, AfterViewInit {
     console.log('Projetos selecionados:', this.selectedProjects.selected);
   }
 
-  expandedProject: Project | null = null;
+  expandedProjectId: string | null = null;
 
-  toggleDetails(project: Project) {
-    this.expandedProject = this.expandedProject === project ? null : project;
+  toggleDetails(project: Project): void {
+    this.expandedProjectId = this.expandedProjectId === project.id ? null : project.id;
+    this.table.renderRows();
+    this.cd.detectChanges();
+  }
+
+  isExpanded(project: Project): boolean {
+    return this.expandedProjectId === project.id;
+  }
+  
+  isDetailRow = (_: number, row: Project) =>
+    row.id === this.expandedProjectId;
+
+  sanitizePdf(b64: string): SafeResourceUrl {
+    const url = `data:application/pdf;base64,${b64}`;
+    return this.sanitizer.bypassSecurityTrustResourceUrl(url);
+  }
+
+  trackById(_: number, project: Project): string {
+    return project.id;
   }
 
   deleteSelectedProjects(): void {
-    if (this.selectedProjects.selected.length === 0) {
-      return;
-    }
-
-    const deleteRequests = this.selectedProjects.selected.map((project: Project) =>
-      this.apiService.deleteProject(project.id)
-    );
-
-    forkJoin(deleteRequests).subscribe({
-      next: () => {
-        const deletedIds = this.selectedProjects.selected.map((p: Project) => p.id);
-        this.projects = this.projects.filter(p => !deletedIds.includes(p.id));
-        this.dataSource.data = [...this.projects];
-        this.selectedProjects.clear();
-      },
-      error: err => console.error('Erro ao excluir projetos:', err)
-    });
+    const toDelete = this.selectedProjects.selected.map(p => p.id);
+    toDelete.forEach(id => this.projectsService.delete(id));
+    this.selectedProjects.clear();
   }
 
   getCurrentPageStart(): number {
@@ -141,6 +149,28 @@ export class TeacherListingComponent implements OnInit, AfterViewInit {
     this.dataSource.filter = this.searchTerm.trim().toLowerCase();
   }
 
+  openAddProjectModal(): void {
+    const dialogRef = this.dialog.open(AddProjectModalComponent, {
+      height: '90vh',
+      width: '80vw', // Use viewport width
+      maxWidth: '1200px', // Largura máxima
+      autoFocus: false,
+      data: {
+        title: 'New Project',
+        projectName: '',
+        coordinator: '',
+        students: [],
+        description: ''
+      }
+    });
+
+    dialogRef.afterClosed().subscribe((created: Project) => {
+      if (created?.id) {
+        this.projectsService.add(created);
+      }
+    });
+  }
+
   openEditProjectModal(project: Project): void {
     const dialogRef = this.dialog.open(EditProjectModalComponent, {
       height: '90vh',
@@ -152,14 +182,8 @@ export class TeacherListingComponent implements OnInit, AfterViewInit {
 
     dialogRef.afterClosed().subscribe((updated: Project) => {
       if (updated?.id) {
-        // Substitui o projeto no array local
-        const idx = this.projects.findIndex(p => p.id === updated.id);
-        if (idx >= 0) this.projects[idx] = updated;
-
-        // Reatualiza o dataSource para a tabela
-        this.dataSource.data = [...this.projects];
+        this.projectsService.update(updated);
       }
     });
   }
-
 }
