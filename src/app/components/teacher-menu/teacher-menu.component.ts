@@ -1,10 +1,10 @@
 import { ChangeDetectorRef, Component, OnInit } from '@angular/core';
-import { ApiService } from '../../services/api.service';
 import { CommonModule } from '@angular/common';
 import { AddProjectModalComponent } from '../add-project-modal/add-project-modal.component';
 import { MatDialog } from '@angular/material/dialog';
 import { Project } from '../../models/models';
 import { MatTableDataSource } from '@angular/material/table';
+import { ProjectsService } from '../../services/projects.service';
 
 @Component({
   selector: 'app-teacher-menu',
@@ -17,14 +17,16 @@ export class TeacherMenuComponent implements OnInit {
   dataSource: MatTableDataSource<Project> = new MatTableDataSource();
 
   constructor(
-    private apiService: ApiService, 
-    private dialog: MatDialog, 
+    private projectsService: ProjectsService,
+    private dialog: MatDialog,
     private cdRef: ChangeDetectorRef
   ) { }
 
   ngOnInit(): void {
-    this.apiService.getProjetos().subscribe((projects: Project[]) => {
-      this.projects = projects;
+    this.projectsService.projects$.subscribe(projs => {
+      this.projects = projs;
+      // se você usasse dataSource aqui, poderia atualizar também
+      this.cdRef.detectChanges();
     });
   }
 
@@ -45,24 +47,8 @@ export class TeacherMenuComponent implements OnInit {
     });
 
     dialogRef.afterClosed().subscribe((created: Project) => {
-      if (created && created.id) {
-        // Opcional: adiciona imediatamente na lista de projetos em tela
-        this.projects.push(created);
-        // Ou recarrega do servidor:
-        // this.apiService.getProjetos().subscribe(ps => this.projects = ps);
-      }
-    });
-
-    dialogRef.afterClosed().subscribe((created: Project) => {
       if (created?.id) {
-        // 1) Atualiza o array local
-        this.projects.push(created);
-
-        // 2) Repassa pro dataSource para re-renderizar
-        this.dataSource.data = [...this.projects];
-
-        // 3) (Opcional) força Angular Material a atualizar sort/paginator
-        this.cdRef.detectChanges();
+        this.projectsService.add(created);
       }
     });
   }
