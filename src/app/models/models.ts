@@ -13,6 +13,7 @@ export interface Project {
     date: string;
     coordinatorId: string;
     students: Array<{ id: string; role: string }>;
+    pdfBase64s: string[];
 }
 
 export type CreateProjectDto = Omit<Project, 'id'>;
