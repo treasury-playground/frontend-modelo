@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
-import { ApiService } from '../../services/api.service';
 import { CommonModule } from '@angular/common';
 import { Project } from '../../models/models';
+import { ProjectsService } from '../../services/projects.service';
 
 @Component({
   selector: 'app-student-menu',
@@ -12,11 +12,11 @@ import { Project } from '../../models/models';
 export class StudentMenuComponent implements OnInit {
   projects: Project[] = [];
 
-  constructor(private apiService: ApiService) {}
+  constructor(private projectsService: ProjectsService) { }
 
   ngOnInit(): void {
-    this.apiService.getProjetos().subscribe((projects: Project[]) => {
-      this.projects = projects;
+    this.projectsService.projects$.subscribe(projs => {
+      this.projects = projs;
     });
   }
 }
