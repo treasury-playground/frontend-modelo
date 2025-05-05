@@ -1,0 +1,31 @@
+<nav class="sidebar">
+  <img src="/logo_tresury_connect.png" alt="Logo" class="sidebar-logo" />
+
+  <h4>MODULES</h4>
+  <ul>
+    <li>
+      <a routerLink="menu" routerLinkActive="active">
+        <span class="pi pi-home"></span> Home Page
+      </a>
+    </li>
+    <li>
+      <a routerLink="listing" (click)="toggleDropdown()" class="dropdown-toggle">
+        <span class="pi pi-clipboard"></span> Listing
+        <span
+          class="pi"
+          [ngClass]="{
+            'pi-chevron-down': !isDropdownOpen,
+            'pi-chevron-up': isDropdownOpen
+          }"
+        ></span>
+      </a>
+      <ul *ngIf="isDropdownOpen" class="dropdown-projects">
+        <li *ngFor="let project of projects">
+          <a routerLink="/project/{{ project.id }}">
+            {{ project.name }}
+          </a>
+        </li>
+      </ul>
+    </li>
+  </ul>
+</nav>

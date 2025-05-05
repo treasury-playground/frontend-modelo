@@ -1,0 +1,202 @@
+<div class="listing-container" *ngIf="users && users.length > 0">
+  <div class="search-bar">
+    <input
+      type="text"
+      placeholder="Search by Project"
+      [(ngModel)]="searchTerm"
+      (input)="applyFilter()"
+    />
+    <i class="pi pi-search search-icon"></i>
+  </div>
+
+  <div class="middle-section">
+    <p class="projects-text">Projects ({{ dataSource.data.length }})</p>
+    <div class="actions">
+      <button
+        class="download-btn"
+        [class.active]="selectedProjects.selected.length > 0"
+      >
+        Download
+      </button>
+    </div>
+  </div>
+
+  <table
+    #table
+    mat-table
+    [dataSource]="dataSource"
+    matSort
+    multiTemplateDataRows
+    [trackBy]="trackById"
+    class="custom-table"
+    [class.loading]="!users || users.length === 0"
+  >
+    <!-- Coluna Toggle (dropdown) -->
+    <ng-container matColumnDef="toggle">
+      <th mat-header-cell *matHeaderCellDef></th>
+      <td mat-cell *matCellDef="let project">
+        <i
+          class="pi toggle-arrow"
+          [ngClass]="
+            expandedProjectId === project.id
+              ? 'pi-chevron-down'
+              : 'pi-chevron-right'
+          "
+          (click)="toggleDetails(project)"
+        ></i>
+      </td>
+    </ng-container>
+
+    <!-- Nome -->
+    <ng-container matColumnDef="name">
+      <th mat-header-cell *matHeaderCellDef mat-sort-header>Nome</th>
+      <td mat-cell *matCellDef="let project">{{ project.name }}</td>
+    </ng-container>
+
+    <!-- Descrição -->
+    <ng-container matColumnDef="description">
+      <th mat-header-cell *matHeaderCellDef mat-sort-header>Descrição</th>
+      <td mat-cell *matCellDef="let project">{{ project.description }}</td>
+    </ng-container>
+
+    <!-- Data -->
+    <ng-container matColumnDef="date">
+      <th mat-header-cell *matHeaderCellDef mat-sort-header>Data</th>
+      <td mat-cell *matCellDef="let project">
+        {{ project.date | date : "MM/dd/yyyy" }}
+      </td>
+    </ng-container>
+
+    <!-- Coluna Coordenador -->
+    <ng-container matColumnDef="coordinator">
+      <th mat-header-cell *matHeaderCellDef mat-sort-header>Coordenador</th>
+      <td mat-cell *matCellDef="let project">
+        <span class="participant-pill coordinator-pill">
+          {{ getUserName(project.coordinatorId) }}
+        </span>
+      </td>
+    </ng-container>
+
+    <!-- Coluna Estudantes -->
+    <ng-container matColumnDef="students">
+      <th mat-header-cell *matHeaderCellDef mat-sort-header>Students</th>
+      <td mat-cell *matCellDef="let project">
+        <ng-container *ngFor="let s of project.students; let i = index">
+          <span
+            *ngIf="i < 2"
+            class="role-pill"
+            [ngClass]="s.role.toLowerCase()"
+            title="{{ s.role }}"
+          >
+            {{ getUserName(s.id) }}
+          </span>
+        </ng-container>
+        <ng-container *ngIf="project.students.length > 2">
+          <span class="role-pill extra">
+            +{{ project.students.length - 2 }}
+          </span>
+        </ng-container>
+      </td>
+    </ng-container>
+
+    <!-- Checkbox Column -->
+    <ng-container matColumnDef="select">
+      <th mat-header-cell *matHeaderCellDef></th>
+      <td mat-cell *matCellDef="let project">
+        <mat-checkbox
+          (click)="$event.stopPropagation()"
+          (change)="toggleSelection(project)"
+          [checked]="selectedProjects.isSelected(project)"
+        >
+        </mat-checkbox>
+      </td>
+    </ng-container>
+
+    <!-- Detail Row -->
+    <ng-container matColumnDef="detail">
+      <td
+        mat-cell
+        *matCellDef="let project"
+        [attr.colspan]="displayedColumns.length"
+      >
+        <div class="detail-container">
+          <!-- PDF Viewer -->
+          <div class="pdf-viewer" *ngIf="project.pdfBase64s?.length">
+            <iframe
+              *ngFor="let b64 of project.pdfBase64s"
+              [src]="sanitizePdf(b64)"
+              frameborder="0"
+            ></iframe>
+          </div>
+
+          <!-- Project Info -->
+          <div class="project-info">
+            <h3>{{ project.name }}</h3>
+            <p><strong>Descrição: </strong>{{ project.description }}</p>
+
+            <p>
+              <strong>Coordenador:</strong>
+              <span class="role-pill coordinator-pill">
+                {{ getUserName(project.coordinatorId) }}
+              </span>
+            </p>
+
+            <p>
+              <strong>Students:</strong>
+              <ng-container *ngFor="let s of project.students">
+                <span
+                  class="role-pill"
+                  [ngClass]="s.role.toLowerCase()"
+                  title="{{ s.role }}"
+                >
+                  {{ getUserName(s.id) }}
+                </span>
+              </ng-container>
+            </p>
+
+            <p>
+              <strong>Upload:</strong>
+              {{ project.uploadDate | date : "MM/dd/yyyy" }}
+            </p>
+            <p><strong>Tipo:</strong> {{ project.type }}</p>
+            <p><strong>Formato:</strong> {{ project.format }}</p>
+            <p><strong>Tamanho:</strong> {{ project.size }}</p>
+          </div>
+        </div>
+      </td>
+    </ng-container>
+
+    <!-- Header e Rows -->
+    <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+    <tr
+      mat-row
+      *matRowDef="let project; columns: displayedColumns"
+      (click)="toggleDetails(project)"
+      [class.expanded]="isExpanded(project)"
+    ></tr>
+    <tr
+      mat-row
+      *matRowDef="let project; columns: ['detail']; when: isDetailRow"
+      class="detail-row"
+    ></tr>
+  </table>
+
+  <div class="pagination-container">
+    <div class="page-info" *ngIf="paginator">
+      <p>
+        Showing {{ getCurrentPageStart() }} - {{ getCurrentPageEnd() }} out of
+        {{ dataSource.filteredData.length }}
+      </p>
+    </div>
+
+    <div class="paginator-wrapper">
+      <mat-paginator
+        [length]="dataSource.filteredData.length"
+        [pageSize]="5"
+        [pageSizeOptions]="[5, 10, 20]"
+        showFirstLastButtons
+      >
+      </mat-paginator>
+    </div>
+  </div>
+</div>

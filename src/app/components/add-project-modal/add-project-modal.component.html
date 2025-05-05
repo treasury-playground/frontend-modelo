@@ -1,0 +1,141 @@
+<div class="modal-header">
+  <h2 class="modal-title">{{ data.title }}</h2>
+  <button mat-icon-button (click)="onCancel()" class="close-button">
+    <mat-icon>close</mat-icon>
+  </button>
+</div>
+
+<div mat-dialog-content>
+  <div class="content-wrapper">
+    <div class="scrollable-content">
+      <p class="upload-label">Upload new documents referring to the project</p>
+
+      <div class="upload-box" (click)="fileInput.click()">
+        <mat-icon>cloud_upload</mat-icon>
+        <span>Click to upload documents</span>
+        <input
+          #fileInput
+          type="file"
+          hidden
+          (change)="onFileSelected($event)"
+          multiple
+        />
+      </div>
+
+      <div class="selected-files" *ngIf="selectedFiles.length > 0">
+        <div class="file-pill" *ngFor="let file of selectedFiles">
+          {{ file.name }}
+          <mat-icon (click)="removeFile(file)">close</mat-icon>
+        </div>
+      </div>
+
+      <div class="form-row">
+        <!-- Name of Project -->
+        <div class="form-group">
+          <label>Name of Project</label>
+          <mat-form-field appearance="outline">
+            <input
+              matInput
+              [(ngModel)]="data.projectName"
+              class="rounded-input"
+            />
+          </mat-form-field>
+        </div>
+
+        <!-- Coordinator -->
+        <div class="form-group">
+          <label>Coordinator</label>
+          <mat-form-field appearance="outline">
+            <input
+              matInput
+              [(ngModel)]="data.coordinator"
+              class="rounded-input"
+            />
+          </mat-form-field>
+        </div>
+
+        <!-- Student Dropdown -->
+        <!-- Student Dropdown sem campo de pesquisa -->
+        <div class="form-group">
+          <label>Students</label>
+          <mat-form-field appearance="outline">
+            <mat-select
+              [formControl]="studentControl"
+              multiple
+              panelClass="custom-select-panel"
+              [compareWith]="compareStudents"
+            >
+              <mat-option
+                *ngFor="let student of allStudents"
+                [value]="student.id"
+              >
+                {{ student.fullName }} ({{ student.educationalInstitution }})
+              </mat-option>
+            </mat-select>
+          </mat-form-field>
+        </div>
+
+        <!-- Role Dropdown -->
+        <div class="form-group">
+          <label>Role</label>
+          <mat-form-field appearance="outline">
+            <mat-label>Select role</mat-label>
+            <mat-select
+              [(ngModel)]="selectedRole"
+              [ngModelOptions]="{ standalone: true }"
+              class="rounded-input"
+            >
+              <mat-option *ngFor="let role of roles" [value]="role">
+                <span [class]="'role-pill ' + role.toLowerCase()">{{
+                  role
+                }}</span>
+              </mat-option>
+            </mat-select>
+          </mat-form-field>
+        </div>
+        <button mat-icon-button (click)="addStudent()" class="add-button">
+          <mat-icon>add</mat-icon>
+        </button>
+      </div>
+
+      <!-- Pill do Coordinator -->
+      <div class="selected-coordinator">
+        <div class="member-pill coordinator">adalbertof</div>
+      </div>
+
+      <!-- Pills dos Students -->
+      <div class="selected-students" *ngIf="selectedStudents.length > 0">
+        <div
+          class="member-pill"
+          *ngFor="let student of selectedStudents"
+          [ngClass]="{
+            trainee: student.role === 'Trainee',
+            junior: student.role === 'Junior',
+            senior: student.role === 'Senior',
+            master: student.role === 'Master'
+          }"
+        >
+          {{ getStudentName(student.id) }}
+          <mat-icon (click)="removeStudent(student.id)">close</mat-icon>
+        </div>
+      </div>
+
+      <!-- Description -->
+      <div class="description-section">
+        <label>Project Description</label>
+        <mat-form-field appearance="outline" class="full-width">
+          <textarea
+            matInput
+            [(ngModel)]="data.description"
+            rows="4"
+            class="rounded-input"
+          ></textarea>
+        </mat-form-field>
+      </div>
+    </div>
+    <div mat-dialog-actions class="actions">
+      <button mat-button (click)="onCancel()">Cancel</button>
+      <button mat-raised-button color="primary" (click)="onSave()">Save</button>
+    </div>
+  </div>
+</div>

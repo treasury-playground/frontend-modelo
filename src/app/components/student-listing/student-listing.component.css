@@ -1,0 +1,266 @@
+/* ==== Search Bar ==== */
+.search-bar {
+    position: relative;
+    width: 100%;
+}
+
+.search-bar input {
+    width: 100%;
+    padding: 8px 40px 8px 8px;
+    font-size: 16px;
+    box-sizing: border-box;
+}
+
+.search-icon {
+    position: absolute;
+    top: 50%;
+    right: 10px;
+    transform: translateY(-50%);
+    font-size: 20px;
+    color: #aaa;
+}
+
+/* ==== Middle Section ==== */
+.middle-section {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin: 10px 0;
+}
+
+.projects-text {
+    font-size: 18px;
+    font-weight: bold;
+}
+
+.actions {
+    display: flex;
+    gap: 10px;
+}
+
+.actions button {
+    padding: 8px 16px;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    background-color: #ddd;
+    color: #333;
+    transition: background-color 0.3s ease;
+}
+
+.actions button.download-btn.active {
+    background-color: #177cb3;
+    color: #fff;
+}
+
+.actions button.delete-btn.active {
+    background-color: #b31717;
+    color: #fff;
+}
+
+/* ==== Listing Table ==== */
+.listing-container {
+    padding: 20px;
+    background-color: #fff;
+}
+
+.custom-table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+.custom-table th,
+.custom-table td {
+    padding: 8px;
+    border-bottom: 1px solid #ccc;
+}
+
+.custom-table th {
+    text-align: left;
+    font-weight: bold;
+}
+
+/* ==== Toggle Arrow & Cell ==== */
+.toggle-cell {
+    cursor: pointer;
+    width: 48px;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.toggle-arrow {
+    cursor: pointer;
+    font-size: 18px;
+    color: #666;
+}
+
+/* ==== Pills ==== */
+.pill-container {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+}
+
+.participant-pill,
+.pill {
+    display: inline-block;
+    padding: 4px 8px;
+    border-radius: 12px;
+    font-size: 14px;
+    white-space: nowrap;
+}
+
+.coordinator-pill {
+    background-color: #d9f5fd;
+    color: #0063b8;
+}
+
+.student-pill {
+    background-color: #e0e0e0;
+    color: #6e6e6e;
+}
+
+.student-pill.extra,
+.participant-pill.extra {
+    background-color: #b0bec5;
+    font-weight: bold;
+}
+
+.pill.trainee {
+    background-color: #90caf9;
+    color: #fff;
+}
+
+.pill.junior {
+    background-color: #81c784;
+    color: #fff;
+}
+
+.pill.senior {
+    background-color: #ffb74d;
+    color: #fff;
+}
+
+.pill.master {
+    background-color: #e57373;
+    color: #fff;
+}
+
+/* ==== Edit Icon ==== */
+.edit-icon {
+    cursor: pointer;
+    font-size: 18px;
+    color: #666;
+    margin: 0 8px;
+}
+
+/* ==== Detail Row / Project View ==== */
+.detail-row .detail-container {
+    display: flex;
+    flex-direction: row;
+    gap: 1rem;
+    padding: 1rem;
+    background: #f9f9f9;
+    box-shadow: inset 0 1px 3px rgba(0, 0, 0, 0.1);
+}
+
+.pdf-viewer {
+    flex: 3;
+    width: 100%;
+    max-height: 400px;
+    overflow-y: auto;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+}
+
+.pdf-viewer iframe {
+    width: 100%;
+    height: 100%;
+    min-height: 300px;
+}
+
+.project-info {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+}
+
+/* ==== Pagination & Add Project ==== */
+.pagination-container {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-top: 20px;
+    padding-top: 8px;
+    border-top: 1px solid #ccc;
+}
+
+.page-info p {
+    margin: 0;
+    font-size: 14px;
+    color: #666;
+}
+
+.paginator-wrapper {
+    flex-grow: 1;
+    display: flex;
+    justify-content: center;
+}
+
+.add-project-wrapper {
+    display: flex;
+    align-items: center;
+}
+
+.add-project,
+button.add-project {
+    padding: 8px 16px;
+    border: none;
+    border-radius: 4px;
+    background-color: #157db4;
+    color: #fff;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.add-project:hover,
+button.add-project:hover {
+    background-color: #126699;
+}
+
+.role-pill {
+    display: inline-flex;
+    align-items: center;
+    padding: 4px 12px;
+    border-radius: 20px;
+    margin: 4px;
+    font-size: 14px;
+    color: #333;
+}
+
+/* Cores por papel */
+.role-pill.trainee {
+    background-color: #c8e6c9;
+}
+
+.role-pill.junior {
+    background-color: #bbdefb;
+}
+
+.role-pill.senior {
+    background-color: #ffecb3;
+}
+
+.role-pill.master {
+    background-color: #ffcdd2;
+}
+
+/* Extra, quando "+N" */
+.role-pill.extra {
+    background-color: #e0e0e0;
+    font-weight: bold;
+    color: #444;
+}

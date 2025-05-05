@@ -1,0 +1,347 @@
+/* ===============================
+   Global & Reset
+=============================== */
+:host {
+    display: block;
+    box-sizing: border-box;
+    padding: 24px;
+}
+
+*,
+*::before,
+*::after {
+    box-sizing: inherit;
+}
+
+/* ===============================
+     Modal Header
+  =============================== */
+.modal-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0 24px 16px;
+    border-bottom: 1px solid #eee;
+    margin-bottom: 16px;
+}
+
+.close-button {
+    background: none;
+    border: none;
+    color: #666;
+    cursor: pointer;
+}
+
+.close-button mat-icon {
+    font-size: 24px;
+}
+
+/* ===============================
+     Upload Section
+  =============================== */
+.upload-label {
+    margin: 16px 0;
+    color: #666;
+    font-weight: 500;
+}
+
+.upload-box {
+    border: 2px dashed #ccc;
+    border-radius: 8px;
+    padding: 32px;
+    text-align: center;
+    cursor: pointer;
+    margin-bottom: 16px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 8px;
+    transition: border-color 0.3s;
+}
+
+.upload-box mat-icon {
+    font-size: 40px;
+    width: 40px;
+    height: 40px;
+    color: #666;
+}
+
+.upload-box:hover {
+    border-color: #3f51b5;
+}
+
+.selected-files {
+    display: flex;
+    gap: 8px;
+    flex-wrap: wrap;
+    margin-bottom: 16px;
+}
+
+.file-pill {
+    display: flex;
+    align-items: center;
+    padding: 6px 12px;
+    border-radius: 20px;
+    background: #f5f5f5;
+    gap: 8px;
+    font-size: 14px;
+}
+
+/* ===============================
+     Form Section
+  =============================== */
+.form-row {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 16px;
+    margin: 16px 0;
+}
+
+.form-group {
+    flex: 1 1 200px;
+    min-width: 200px;
+    display: flex;
+    flex-direction: column;
+    margin-bottom: 16px;
+}
+
+.form-group>label {
+    margin-bottom: 4px;
+    font-weight: 500;
+}
+
+input.mat-input-element,
+textarea.mat-input-element {
+    background-color: #fff;
+    border-radius: 6px;
+    padding: 8px;
+}
+
+/* Botão de Adição (+) */
+.add-button {
+    background: transparent;
+    border: none;
+    color: #6e6e6e;
+    box-shadow: none;
+    padding: 0;
+    align-self: center;
+}
+
+/* ===============================
+     Pills de Membros
+  =============================== */
+
+/* Pill do Coordinator */
+.selected-coordinator {
+    margin-top: 8px;
+    text-align: left;
+}
+
+.member-pill {
+    display: inline-flex;
+    align-items: center;
+    padding: 6px 12px;
+    border-radius: 20px;
+    font-size: 14px;
+    margin-right: 8px;
+    margin-bottom: 8px;
+    transition: transform 0.2s;
+}
+
+.member-pill:hover {
+    transform: translateY(-2px);
+}
+
+.member-pill mat-icon {
+    font-size: 16px;
+    margin-left: 8px;
+    cursor: pointer;
+    vertical-align: middle;
+}
+
+/* Pill do Coordinator com cor fixa */
+.member-pill.coordinator {
+    background-color: #d9f5fd;
+    color: #0063b8;
+}
+
+/* Pills dos Students – cores por role */
+.selected-students {
+    margin-top: 8px;
+    text-align: left;
+}
+
+.member-pill.trainee {
+    background-color: #c8e6c9;
+    border: 1px solid #2e7d32;
+}
+
+.member-pill.junior {
+    background-color: #bbdefb;
+    border: 1px solid #1565c0;
+}
+
+.member-pill.senior {
+    background-color: #ffecb3;
+    border: 1px solid #ffa000;
+}
+
+.member-pill.master {
+    background-color: #ffcdd2;
+    border: 1px solid #c62828;
+}
+
+/* ===============================
+     Role Pill (no dropdown)
+  =============================== */
+.role-pill {
+    display: inline-flex;
+    align-items: center;
+    padding: 4px 12px;
+    border-radius: 20px;
+    margin: 4px;
+    font-size: 14px;
+}
+
+.role-pill.trainee {
+    background-color: #c8e6c9;
+}
+
+.role-pill.junior {
+    background-color: #bbdefb;
+}
+
+.role-pill.senior {
+    background-color: #ffecb3;
+}
+
+.role-pill.master {
+    background-color: #ffcdd2;
+}
+
+/* ===============================
+     Description Section
+  =============================== */
+.description-section {
+    margin-top: 24px;
+}
+
+.description-section mat-form-field {
+    width: 100%;
+}
+
+/* ===============================
+     Dialog Actions
+  =============================== */
+.actions {
+    display: flex;
+    justify-content: flex-end;
+    gap: 16px;
+    padding: 16px 24px;
+    border-top: 1px solid #eee;
+}
+
+.actions button {
+    border-radius: 4px;
+    padding: 8px 24px;
+    text-transform: uppercase;
+    font-weight: 500;
+}
+
+/* ===============================
+     Responsividade
+  =============================== */
+@media (max-width: 768px) {
+    .form-group {
+        flex: 1 1 100%;
+    }
+
+    .upload-box {
+        padding: 24px;
+    }
+}
+
+/* ===============================
+   ESCALA GERAL: reduz tudo dentro do modal
+   =============================== */
+:host {
+    /* todo texto, inputs e labels vão herdar essa base */
+    font-size: 0.875rem;
+    /* era ~1rem, agora 87,5% */
+    line-height: 1.2;
+    /* pra ocupar menos vertical */
+}
+
+/* título do header menor */
+.modal-header .modal-title {
+    font-size: 1.25rem;
+    /* antes era 2rem? ajuste aqui */
+    margin: 0;
+}
+
+/* inputs e selects mais compactos */
+.mat-form-field-appearance-outline .mat-form-field-outline {
+    /* contorno mais fininho */
+    stroke-width: 1px;
+}
+
+.mat-form-field-appearance-outline .mat-form-field-wrapper {
+    padding: 2px 6px;
+    /* antes 8px–12px */
+}
+
+.mat-form-field-infix {
+    padding: 0;
+    /* remove padding interno extra */
+}
+
+/* texto e placeholder */
+.mat-input-element,
+.mat-select-value-text {
+    font-size: 0.875rem;
+    padding: 4px 0;
+    /* menos altura */
+}
+
+/* textarea com menos rows por padrão */
+.description-section textarea.mat-input-element {
+    min-height: 4em;
+    /* controla altura mínima */
+    max-height: 6em;
+    /* evita ser muito alto */
+}
+
+/* gap e margens menores */
+.form-row {
+    gap: 0.5rem;
+    /* antes era 1rem+ */
+    margin: 0.5rem 0;
+}
+
+.form-group {
+    margin-bottom: 0.5rem;
+}
+
+/* upload box e file pills mais enxutos */
+.upload-box {
+    padding: 1rem;
+    /* antes 2rem+ */
+}
+
+.file-pill {
+    font-size: 0.75rem;
+    /* antes 0.875rem */
+    padding: 2px 6px;
+}
+
+/* botões de ação menores */
+.actions button {
+    font-size: 0.75rem;
+    padding: 4px 12px;
+}
+
+/* ícones menores */
+mat-icon {
+    font-size: 1rem;
+    /* antes 1.5rem–2rem */
+}

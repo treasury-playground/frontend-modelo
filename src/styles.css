@@ -1,1 +1,24 @@
 /* You can add global styles to this file, and also import other style files */
+@import "primeicons/primeicons.css";
+
+html,
+body {
+    height: 100%;
+}
+
+body {
+    margin: 0;
+    font-family: Roboto, "Helvetica Neue", sans-serif;
+}
+
+/* global styles.css */
+.member-pill.document-pill {
+    background-color: #dddddd !important;
+    border: 1px solid black !important;
+    color: black !important;
+}
+
+.member-pill.document-pill mat-icon {
+    /* garante que o ícone herde a cor do texto */
+    color: inherit !important;
+}

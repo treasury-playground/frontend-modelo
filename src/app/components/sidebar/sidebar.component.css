@@ -1,0 +1,59 @@
+.sidebar {
+    flex-grow: 1;
+    background-color: #157db4;
+    color: white;
+    padding: 20px;
+    display: flex;
+    flex-direction: column;
+}
+
+.sidebar a {
+    color: white;
+    text-decoration: none;
+    font-size: 1rem;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 10px;
+}
+
+.sidebar h4 {
+    font-size: 1rem;
+    margin-left: 10px;
+    margin-bottom: 5px;
+}
+
+.sidebar ul {
+    list-style: none;
+    padding: 0;
+}
+
+.sidebar li {
+    margin: 10px 0;
+}
+
+.dropdown-projects {
+    margin-top: 5px;
+    margin-left: 20px;
+    list-style: disc;
+}
+
+.dropdown-projects li {
+    margin: 5px 0;
+}
+
+.sidebar-logo {
+    width: 10vw;
+    height: auto;
+    display: block;
+    margin: 0 auto 35px;
+}
+
+.dropdown-toggle:hover {
+    background-color: rgba(255, 255, 255, 0.1);
+    border-radius: 5px;
+}
+
+.dropdown-toggle::after {
+    content: none !important;
+  }

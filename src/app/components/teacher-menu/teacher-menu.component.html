@@ -1,0 +1,14 @@
+<div class="menu">
+    <div class="project-icons">
+      <!-- Itera pelos projetos, exibindo cada um em um card -->
+      <div *ngFor="let project of projects" class="project-card">
+        <i class="pi pi-clipboard"></i>
+        <h4>{{ project.name }}</h4>
+        <p>{{ project.description }}</p>
+      </div>
+    </div>
+    <button id="add-new-project" (click)="openAddProjectModal()">
+      <i class="pi pi-plus"></i> Add New Project
+    </button>
+  </div>
+  
